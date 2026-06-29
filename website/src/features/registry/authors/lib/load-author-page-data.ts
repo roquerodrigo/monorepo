@@ -49,9 +49,14 @@ export type RegistryAuthorAssetSummary = {
   latestVersionUpdatedAt: number;
 };
 
+export type RegistryAuthorAssetUpdateGroup = {
+  updatedAt: number;
+  assets: RegistryAuthorAssetSummary[];
+};
+
 export type RegistryAuthorOverview = {
   newestAsset: RegistryAuthorAssetSummary | null;
-  mostRecentUpdate: RegistryAuthorAssetSummary | null;
+  mostRecentUpdate: RegistryAuthorAssetUpdateGroup | null;
 };
 
 export type RegistryAuthorDownloadHistoryPoint = {
@@ -535,6 +540,31 @@ function summarizeAssetFromReleaseCache(
   };
 }
 
+export function computeRegistryOverviewFromAssetSummaries(
+  assetSummaries: RegistryAuthorAssetSummary[],
+): RegistryAuthorOverview {
+  const newestAsset =
+    [...assetSummaries].sort((left, right) => right.publishedAt - left.publishedAt)[0] ?? null;
+  const mostRecentUpdateTimestamp = assetSummaries.reduce(
+    (latest, item) => Math.max(latest, item.latestVersionUpdatedAt),
+    0,
+  );
+  const mostRecentUpdateAssets = assetSummaries
+    .filter((item) => item.latestVersionUpdatedAt === mostRecentUpdateTimestamp)
+    .sort((left, right) => left.name.localeCompare(right.name));
+
+  return {
+    newestAsset,
+    mostRecentUpdate:
+      mostRecentUpdateTimestamp > 0 && mostRecentUpdateAssets.length > 0
+        ? {
+            updatedAt: mostRecentUpdateTimestamp,
+            assets: mostRecentUpdateAssets,
+          }
+        : null,
+  };
+}
+
 function computeAuthorOverview(
   itemsByType: Record<string, RegistrySearchItem[]>,
   releaseCache: ReleaseCache,
@@ -544,14 +574,7 @@ function computeAuthorOverview(
     .map((item) => summarizeAssetFromReleaseCache(item, releaseCache))
     .filter((item): item is RegistryAuthorAssetSummary => item !== null);
 
-  return {
-    newestAsset:
-      [...assetSummaries].sort((left, right) => right.publishedAt - left.publishedAt)[0] ?? null,
-    mostRecentUpdate:
-      [...assetSummaries].sort(
-        (left, right) => right.latestVersionUpdatedAt - left.latestVersionUpdatedAt,
-      )[0] ?? null,
-  };
+  return computeRegistryOverviewFromAssetSummaries(assetSummaries);
 }
 
 function getAuthorCollaborations(

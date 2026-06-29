@@ -13,6 +13,7 @@ import type {
   RegistryAuthorDownloadTrend,
   RegistryAuthorOverview,
 } from "./load-author-page-data";
+import { computeRegistryOverviewFromAssetSummaries } from "./load-author-page-data";
 
 export type RegistryProjectProfile = {
   projectId: string;
@@ -425,14 +426,7 @@ function computeProjectOverview(
     .map((item) => summarizeAssetFromReleaseCache(item, releaseCache))
     .filter((item): item is RegistryAuthorAssetSummary => item !== null);
 
-  return {
-    newestAsset:
-      [...assetSummaries].sort((left, right) => right.publishedAt - left.publishedAt)[0] ?? null,
-    mostRecentUpdate:
-      [...assetSummaries].sort(
-        (left, right) => right.latestVersionUpdatedAt - left.latestVersionUpdatedAt,
-      )[0] ?? null,
-  };
+  return computeRegistryOverviewFromAssetSummaries(assetSummaries);
 }
 
 function buildAuthorByGithubId(authorsIndex: RawAuthorsIndex) {

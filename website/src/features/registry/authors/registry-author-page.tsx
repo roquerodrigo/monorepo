@@ -73,6 +73,7 @@ import {
 import type { RegistrySortId, RegistryViewMode } from "@/features/registry/lib/types";
 import {
   loadAuthorPageData,
+  type RegistryAuthorAssetUpdateGroup,
   type RegistryAuthorAssetSummary,
   type RegistryAuthorPageData,
   type RegistryAuthorProjectSummary,
@@ -155,6 +156,10 @@ function formatDate(timestamp: number) {
 
 function formatNullableNumber(value: number | null | undefined) {
   return typeof value === "number" && Number.isFinite(value) ? formatNumber(value) : "—";
+}
+
+function formatAssetCount(count: number) {
+  return `${formatNumber(count)} ${count === 1 ? "asset" : "assets"}`;
 }
 
 function compareNullableNumbers(
@@ -291,17 +296,53 @@ function AssetSummaryValue({ item }: { item: RegistryAuthorAssetSummary | null }
   );
 }
 
-function AssetUpdateValue({ item }: { item: RegistryAuthorAssetSummary | null }) {
+function AssetUpdateValue({ update }: { update: RegistryAuthorAssetUpdateGroup | null }) {
+  if (!update) {
+    return <span className="text-muted-foreground">None</span>;
+  }
+
+  const [item] = update.assets;
+  if (update.assets.length === 1 && item) {
+    return (
+      <AssetMetricLink
+        item={item}
+        tooltip={
+          <span className="text-foreground">
+            {formatDate(item.latestVersionUpdatedAt)} •{" "}
+            <span>{item.latestVersion ?? "unknown"}</span>
+          </span>
+        }
+      />
+    );
+  }
+
   return (
-    <AssetMetricLink
-      item={item}
-      tooltip={
-        <span className="text-foreground">
-          {formatDate(item?.latestVersionUpdatedAt || 0)} •{" "}
-          <span>{item?.latestVersion ?? "unknown"}</span>
-        </span>
-      }
-    />
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span
+            tabIndex={0}
+            className="inline-flex max-w-full cursor-help items-center gap-1.5 leading-tight outline-none"
+          >
+            <span>{formatAssetCount(update.assets.length)}</span>
+            <span className="text-muted-foreground">•</span>
+            <span>{formatDate(update.updatedAt)}</span>
+          </span>
+        </TooltipTrigger>
+        <TooltipContent side="top" className="max-w-72">
+          <span className="flex flex-col gap-1 text-left">
+            {update.assets.map((asset) => (
+              <span key={asset.id} className="flex min-w-0 items-baseline justify-between gap-3">
+                <span className="truncate font-medium text-foreground">{asset.name}</span>
+                <span className="shrink-0 text-muted-foreground">
+                  {asset.latestVersion ?? "unknown"}
+                </span>
+              </span>
+            ))}
+          </span>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 
@@ -1129,7 +1170,7 @@ function AuthorOverview({
     },
     {
       title: "Most Recent Update",
-      value: <AssetUpdateValue item={data.overview.mostRecentUpdate} />,
+      value: <AssetUpdateValue update={data.overview.mostRecentUpdate} />,
       icon: Clock,
     },
   ];
