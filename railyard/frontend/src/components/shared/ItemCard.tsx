@@ -7,12 +7,19 @@ import {
   assetTypeToListingPath,
   resolveMapLocation,
 } from '@subway-builder-modded/config';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@subway-builder-modded/shared-ui';
 import { useMemo } from 'react';
 import { Link } from 'wouter';
 
 import { getCountryFlagIcon } from '@/lib/flags';
 
 import type { types } from '../../../wailsjs/go/models';
+import { IncompatibleBadge, TestBadge } from './AssetStatusBadges';
 import { AuthorName } from './AuthorName';
 import { GalleryImage } from './GalleryImage';
 
@@ -21,6 +28,9 @@ interface ItemCardWrapperProps {
   item: types.ModManifest | types.MapManifest;
   installedVersion?: string;
   totalDownloads?: number;
+  incompatible?: boolean;
+  gameVersion?: string;
+  test?: boolean;
   viewMode?: 'full' | 'compact' | 'list';
   descriptionMode?: 'raw' | 'preview';
 }
@@ -36,12 +46,20 @@ export function ItemCard({
   item,
   installedVersion,
   totalDownloads,
+  incompatible = false,
+  gameVersion,
+  test = false,
   viewMode = 'full',
   descriptionMode = 'raw',
 }: ItemCardWrapperProps) {
   const isMap = isMapManifest(item);
   const mapItem = isMap ? (item as types.MapManifest) : null;
   const CountryFlag = getCountryFlagIcon(mapItem?.country);
+  // Browse only knows that no downloadable version is compatible (versions can fail
+  // for different reasons), so the hover is a single statement rather than per-reason rows.
+  const incompatibleReason = gameVersion
+    ? `No asset version is compatible with game version ${gameVersion}.`
+    : 'No compatible asset version available.';
 
   const formatDescription = useMemo(() => {
     if (descriptionMode === 'preview') {
@@ -74,6 +92,27 @@ export function ItemCard({
       population={mapItem?.population}
       installedVersion={installedVersion}
       totalDownloads={totalDownloads}
+      topLeftBadge={
+        incompatible || test ? (
+          <span className="inline-flex items-center gap-1">
+            {test && <TestBadge />}
+            {incompatible && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span>
+                      <IncompatibleBadge />
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-64">
+                    {incompatibleReason}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </span>
+        ) : undefined
+      }
       viewMode={viewMode}
       href={`/project/${assetTypeToListingPath(type)}/${item.id}`}
       imagePath={item.gallery?.[0]}

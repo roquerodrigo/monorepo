@@ -6,12 +6,8 @@ import type {
   SortState,
 } from '@subway-builder-modded/config';
 import { assetTypeToListingPath } from '@subway-builder-modded/config';
-import {
-  formatSourceQuality,
-  resolveMapLocation,
-} from '@subway-builder-modded/config';
 import { TEXT_SORT_FIELDS } from '@subway-builder-modded/config';
-import { Badge, Button } from '@subway-builder-modded/shared-ui';
+import { Button } from '@subway-builder-modded/shared-ui';
 import { cn } from '@subway-builder-modded/shared-ui';
 import { AppDialog } from '@subway-builder-modded/shared-ui';
 import { LOCAL_ACCENTS } from '@subway-builder-modded/shared-ui';
@@ -23,11 +19,8 @@ import {
   TooltipTrigger,
 } from '@subway-builder-modded/shared-ui';
 import {
-  CircleAlert,
   CircleFadingArrowUp,
-  FlaskConical,
   FolderOpen,
-  HardDrive,
   OctagonX,
   Trash2,
 } from 'lucide-react';
@@ -35,8 +28,14 @@ import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import { Link } from 'wouter';
 
+import {
+  IncompatibleBadge,
+  LocalBadge,
+  TestBadge,
+} from '@/components/shared/AssetStatusBadges';
 import { AuthorName } from '@/components/shared/AuthorName';
 import { GalleryImage } from '@/components/shared/GalleryImage';
+import { IncompatibilityTooltipContent } from '@/components/shared/IncompatibilityTooltip';
 import type { InstalledTaggedItem } from '@/hooks/use-filtered-installed-items';
 import { useGameVersion } from '@/hooks/use-game-version';
 import { getCountryFlagIcon } from '@/lib/flags';
@@ -53,10 +52,7 @@ import {
   type PendingUpdatesByKey,
   type PendingUpdateTarget,
 } from '@/lib/subscription-updates';
-import {
-  getFailingConstraints,
-  isInstalledCompatible,
-} from '@/lib/version-compatibility';
+import { isInstalledCompatible } from '@/lib/version-compatibility';
 import { useConfigStore } from '@/stores/config-store';
 import { useInstalledStore } from '@/stores/installed-store';
 import { useLibraryStore } from '@/stores/library-store';
@@ -69,61 +65,6 @@ const UNINSTALL_ICON_ACCENT = LOCAL_ACCENTS.uninstall.iconButton;
 
 const ENTRIES_PREVIEW_LIMIT = 10;
 const LIBRARY_TEXT_SORT_FIELDS = new Set<SortField>(TEXT_SORT_FIELDS);
-
-const BADGE_BASE_CLASS =
-  'inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest';
-
-function StatusBadge({
-  icon: Icon,
-  label,
-  colorClassName,
-  className,
-}: {
-  icon: React.ElementType;
-  label: string;
-  colorClassName: string;
-  className?: string;
-}) {
-  return (
-    <span className={cn(BADGE_BASE_CLASS, colorClassName, className)}>
-      <Icon className="h-2.5 w-2.5 shrink-0" />
-      {label}
-    </span>
-  );
-}
-
-export function LocalBadge({ className }: { className?: string }) {
-  return (
-    <StatusBadge
-      icon={HardDrive}
-      label="Local"
-      colorClassName="border-amber-400/30 bg-amber-500/10 text-amber-600 dark:text-amber-400"
-      className={className}
-    />
-  );
-}
-
-export function IncompatibleBadge({ className }: { className?: string }) {
-  return (
-    <StatusBadge
-      icon={CircleAlert}
-      label="Incompatible"
-      colorClassName="border-red-400/30 bg-red-500/10 text-red-600 dark:text-red-400"
-      className={className}
-    />
-  );
-}
-
-export function TestBadge({ className }: { className?: string }) {
-  return (
-    <StatusBadge
-      icon={FlaskConical}
-      label="Test"
-      colorClassName="border-[color-mix(in_srgb,var(--update-primary)_30%,transparent)] bg-[color-mix(in_srgb,var(--update-primary)_10%,transparent)] text-(--update-primary)"
-      className={className}
-    />
-  );
-}
 
 const COL = {
   gap: 'gap-3',
@@ -320,24 +261,12 @@ function LibraryListRow({
   const isLocal = entry.isLocal;
   const showIncompatible =
     isInstalledCompatible(gameVersion, entry.constraints ?? []) === false;
-  const failingConstraints = showIncompatible
-    ? getFailingConstraints(gameVersion, entry.constraints ?? [])
-    : [];
   const showTest = !isLocal && entry.item.is_test === true;
   const map = isMap ? (entry.item as types.MapManifest) : null;
 
   const mapCityCode = map?.city_code?.trim().toUpperCase() ?? '';
   const mapCountry = map?.country ?? '';
   const CountryFlag = getCountryFlagIcon(mapCountry);
-
-  const badges = isMap
-    ? [
-        resolveMapLocation(map ?? {}),
-        formatSourceQuality(map?.source_quality ?? ''),
-        map?.level_of_detail,
-        ...(map?.special_demand ?? []),
-      ].filter((v): v is string => Boolean(v))
-    : (entry.item.tags ?? []);
 
   const pendingUpdate = isLocal
     ? undefined
@@ -348,9 +277,6 @@ function LibraryListRow({
       );
 
   const projectHref = `/project/${assetTypeToListingPath(entry.type)}/${entry.item.id}`;
-
-  const visibleBadges = badges.slice(0, 2);
-  const overflowCount = badges.length - visibleBadges.length;
 
   const handleUninstall = async () => {
     setUninstallLoading(true);
@@ -462,25 +388,6 @@ function LibraryListRow({
               />
             </p>
           </div>
-
-          {!isLocal && (
-            <div className="shrink-0 flex items-center gap-1">
-              {visibleBadges.map((badge) => (
-                <Badge
-                  key={badge}
-                  variant="secondary"
-                  className="px-1.5 py-0 text-xs"
-                >
-                  {badge}
-                </Badge>
-              ))}
-              {overflowCount > 0 && (
-                <Badge variant="outline" className="px-1.5 py-0 text-xs">
-                  +{overflowCount}
-                </Badge>
-              )}
-            </div>
-          )}
         </div>
 
         <div
@@ -499,15 +406,11 @@ function LibraryListRow({
                     <IncompatibleBadge />
                   </span>
                 </TooltipTrigger>
-                <TooltipContent className="max-w-56 space-y-0.5">
-                  {failingConstraints.map((c) => (
-                    <p key={c.type}>
-                      {c.type === 'buildings_index'
-                        ? 'Buildings index format'
-                        : 'Game version'}
-                      : requires {c.range}
-                    </p>
-                  ))}
+                <TooltipContent className="max-w-64">
+                  <IncompatibilityTooltipContent
+                    gameVersion={gameVersion}
+                    constraints={entry.constraints ?? []}
+                  />
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

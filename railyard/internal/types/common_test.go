@@ -5,8 +5,117 @@ import (
 	"io"
 	"testing"
 
+	semver "github.com/Masterminds/semver/v3"
 	"github.com/stretchr/testify/require"
 )
+
+func TestParseSemver(t *testing.T) {
+	v, err := ParseSemver("v1.3.0")
+	require.NoError(t, err)
+	require.Equal(t, "1.3.0", v.String(), "tolerates a v prefix")
+
+	_, err = ParseSemver("not-a-version")
+	require.Error(t, err)
+}
+
+func TestIsSemverNewer(t *testing.T) {
+	newer, err := IsSemverNewer("2.0.0", "1.0.0")
+	require.NoError(t, err)
+	require.True(t, newer)
+
+	same, err := IsSemverNewer("1.0.0", "1.0.0")
+	require.NoError(t, err)
+	require.False(t, same, "same version is not newer")
+
+	older, err := IsSemverNewer("1.0.0", "2.0.0")
+	require.NoError(t, err)
+	require.False(t, older)
+
+	prefixed, err := IsSemverNewer("v2.0.0", "1.0.0")
+	require.NoError(t, err)
+	require.True(t, prefixed, "tolerates a v prefix")
+
+	_, err = IsSemverNewer("bad", "1.0.0")
+	require.Error(t, err)
+}
+
+func TestSemverSatisfiesConstraint(t *testing.T) {
+	gameVersion := semver.MustParse("1.3.0")
+
+	ok, err := SemverSatisfiesConstraint(gameVersion, "")
+	require.NoError(t, err)
+	require.True(t, ok, "empty range imposes no requirement")
+
+	ok, err = SemverSatisfiesConstraint(gameVersion, ">=1.0.0")
+	require.NoError(t, err)
+	require.True(t, ok)
+
+	ok, err = SemverSatisfiesConstraint(gameVersion, ">=1.4.0")
+	require.NoError(t, err)
+	require.False(t, ok)
+
+	// A malformed range is treated as satisfied, but surfaces the parse error.
+	ok, err = SemverSatisfiesConstraint(gameVersion, "not-a-range")
+	require.Error(t, err)
+	require.True(t, ok)
+}
+
+func TestDescribeConstraint(t *testing.T) {
+	// >= includes the boundary
+	require.Equal(t,
+		"Game version: needs 1.3.0 or newer (you have 1.2.0)",
+		DescribeConstraint(InstalledConstraint{Type: ConstraintTypeManifest, Range: ">=1.3.0"}, "1.2.0"))
+	// > excludes the boundary (binary buildings index)
+	require.Equal(t,
+		"Buildings format: needs newer than 1.3.0 (you have 1.2.0)",
+		DescribeConstraint(InstalledConstraint{Type: ConstraintTypeBuildingsIndex, Range: ">1.3.0"}, "1.2.0"))
+	// <= includes the boundary (legacy buildings index)
+	require.Equal(t,
+		"Buildings format: needs 1.3.0 or older (you have 1.4.0)",
+		DescribeConstraint(InstalledConstraint{Type: ConstraintTypeBuildingsIndex, Range: "<=1.3.0"}, "1.4.0"))
+	// compound range → left raw
+	require.Equal(t,
+		"Game version: needs >=1.0.0 <2.0.0 (you have 0.9.0)",
+		DescribeConstraint(InstalledConstraint{Type: ConstraintTypeManifest, Range: ">=1.0.0 <2.0.0"}, "0.9.0"))
+}
+
+func TestDescribeIncompatibility(t *testing.T) {
+	gameVersion := semver.MustParse("1.2.0")
+	constraints := []InstalledConstraint{
+		{Type: ConstraintTypeManifest, Range: ">=1.3.0"},
+		{Type: ConstraintTypeBuildingsIndex, Range: ">1.3.0"},
+	}
+	// Buildings-index first, joined under the shared base sentence.
+	require.Equal(t,
+		IncompatibleGameVersionMessage+". Buildings format: needs newer than 1.3.0 (you have 1.2.0); Game version: needs 1.3.0 or newer (you have 1.2.0)",
+		DescribeIncompatibility(gameVersion, constraints))
+
+	// Empty when fully compatible.
+	require.Equal(t, "", DescribeIncompatibility(semver.MustParse("2.0.0"), constraints))
+}
+
+func TestUnsatisfiedConstraints(t *testing.T) {
+	gameVersion := semver.MustParse("1.2.0")
+
+	failing := UnsatisfiedConstraints(gameVersion, []InstalledConstraint{
+		{Type: ConstraintTypeManifest, Range: ">=1.3.0"},      // fails
+		{Type: ConstraintTypeBuildingsIndex, Range: ">1.0.0"}, // satisfied
+	})
+	require.Len(t, failing, 1)
+	require.Equal(t, ConstraintTypeManifest, failing[0].Type)
+
+	// When both fail, buildings_index is ordered first.
+	both := []InstalledConstraint{
+		{Type: ConstraintTypeManifest, Range: ">=1.3.0"},
+		{Type: ConstraintTypeBuildingsIndex, Range: ">1.3.0"},
+	}
+	failingBoth := UnsatisfiedConstraints(gameVersion, both)
+	require.Len(t, failingBoth, 2)
+	require.Equal(t, ConstraintTypeBuildingsIndex, failingBoth[0].Type)
+
+	// Fully compatible game version yields nothing.
+	require.Empty(t, UnsatisfiedConstraints(semver.MustParse("2.0.0"), both))
+}
 
 func TestIsValidAssetType(t *testing.T) {
 	require.True(t, IsValidAssetType(AssetTypeMap))
@@ -47,6 +156,11 @@ func TestAutoPurgeDownloadErrors(t *testing.T) {
 	require.True(t, AutoPurgeDownloadErrors(InstallErrorChecksumFailed))
 	require.True(t, AutoPurgeDownloadErrors(InstallErrorVersionNotFound))
 	require.False(t, AutoPurgeDownloadErrors(InstallErrorVersionLookup))
+
+	// Confirmed incompatibility purges; an undetectable version does not (it is an
+	// unknown — blocked but preserved for retry once detection works).
+	require.True(t, AutoPurgeDownloadErrors(InstallErrorIncompatibleGameVersion))
+	require.False(t, AutoPurgeDownloadErrors(InstallErrorGameVersionUndetectable))
 }
 
 func TestAssetTypeDir(t *testing.T) {

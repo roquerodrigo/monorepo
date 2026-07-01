@@ -34,3 +34,5 @@ export function OpenInFileExplorer(arg1:string):Promise<types.GenericResponse>;
 export function SandboxIsInstalled():Promise<types.SandboxStatusResponse>;
 
 export function StopGame():Promise<types.GenericResponse>;
+
+export function ValidateImportedMapArchives(arg1:Array<string>):Promise<types.ImportValidationResponse>;

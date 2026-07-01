@@ -106,12 +106,15 @@ func ValidateMapArchive(filePath string) (types.ConfigData, types.DownloaderErro
 
 	filesFound := BuildMapArchiveFileIndex(reader.File)
 
-	if !requiredFilesPresent(filesFound) {
-		return configData, types.InstallErrorInvalidArchive, &types.MissingFilesError{Files: []string{"The map archive is missing one or more required files."}}
-	}
-
+	// Report every gap at once (the buildings index counts as one requirement
+	// satisfied by either form) so a bad archive surfaces in a single pass.
+	missing := missingRequiredFiles(filesFound)
 	if !buildingsIndexPresent(filesFound) {
-		return configData, types.InstallErrorInvalidArchive, &types.MissingFilesError{Files: []string{"The map archive is missing a buildings index (need buildings_index.json/.json.gz or buildings_index.bin/.bin.gz)."}}
+		missing = append(missing,
+			fmt.Sprintf("a buildings index (%s or %s)", MapBuildingsFileName, MapBuildingsBinFileName))
+	}
+	if len(missing) > 0 {
+		return configData, types.InstallErrorInvalidArchive, &types.MissingFilesError{Files: missing}
 	}
 
 	for _, file := range reader.File {
@@ -190,13 +193,30 @@ func ValidateInstalledMapData(mapInstallRoot string, mapTilesRoot string, cityCo
 	return readInstalledMapConfig(mapInstallRoot, cityCode)
 }
 
-func requiredFilesPresent(filesFound map[string]types.FileFoundStruct) bool {
-	for _, fileStruct := range filesFound {
-		if fileStruct.Required && !fileStruct.Found {
-			return false
+// mapArchiveFileLabels pairs each archive key with the name shown when missing,
+// in a stable display order. Required-ness comes from the index, not this list.
+var mapArchiveFileLabels = []struct {
+	key   string
+	label string
+}{
+	{MapArchiveKeyConfig, MapConfigFileName},
+	{MapArchiveKeyDemandData, MapDemandFileName},
+	{MapArchiveKeyRoads, MapRoadsFileName},
+	{MapArchiveKeyRunways, MapRunwaysFileName},
+	{MapArchiveKeyTiles, "map tiles (*" + MapTileFileExt + ")"},
+}
+
+// missingRequiredFiles returns the display names of the absent required files,
+// reading required-ness from the index built by BuildMapArchiveFileIndex.
+func missingRequiredFiles(filesFound map[string]types.FileFoundStruct) []string {
+	missing := make([]string, 0, len(mapArchiveFileLabels))
+	for _, f := range mapArchiveFileLabels {
+		entry := filesFound[f.key]
+		if entry.Required && !entry.Found {
+			missing = append(missing, f.label)
 		}
 	}
-	return true
+	return missing
 }
 
 // buildingsIndexPresent reports whether the archive carries a buildings index in either form.

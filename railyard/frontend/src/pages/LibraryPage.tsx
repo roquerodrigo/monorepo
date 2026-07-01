@@ -3,8 +3,6 @@ import {
   AssetSidebarPanel,
   EmptyState,
   ErrorBanner,
-  FILTER_COUNT_BADGE_CLASS,
-  FILTER_SECTION_TITLE_CLASS,
   Pagination,
   ResultsSummary,
   SearchBar,
@@ -34,24 +32,16 @@ import {
   SelectValue,
 } from '@subway-builder-modded/shared-ui';
 import { PageHeading } from '@subway-builder-modded/shared-ui';
-import { Separator } from '@subway-builder-modded/shared-ui';
 import { cn } from '@subway-builder-modded/shared-ui';
-import {
-  AlertTriangle,
-  CircleAlert,
-  FileArchive,
-  FlaskConical,
-  HardDrive,
-  Inbox,
-  Plus,
-  SearchX,
-} from 'lucide-react';
+import { FileArchive, Inbox, Plus, SearchX } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { useLocation } from 'wouter';
 
+import { ImportReviewDialog } from '@/components/library/ImportReviewDialog';
 import { LibraryActionBar } from '@/components/library/LibraryActionBar';
 import { LibraryList } from '@/components/library/LibraryList';
+import { AssetStatusFilterSection } from '@/components/shared/AssetStatusFilterSection';
 import { SidebarPanel } from '@/components/shared/SidebarPanel';
 import { useFilteredInstalledItems } from '@/hooks/use-filtered-installed-items';
 import { useGameVersion } from '@/hooks/use-game-version';
@@ -67,16 +57,16 @@ import {
 } from '@/lib/subscription-updates';
 import { isInstalledCompatible } from '@/lib/version-compatibility';
 import { useBrowseStore } from '@/stores/browse-store';
-import {
-  AssetConflictError,
-  InvalidMapCodeError,
-  useInstalledStore,
-} from '@/stores/installed-store';
+import { useDownloadQueueStore } from '@/stores/download-queue-store';
+import { useInstalledStore } from '@/stores/installed-store';
 import { useLibraryStore } from '@/stores/library-store';
 import { useRegistryStore } from '@/stores/registry-store';
 import { useUIStore } from '@/stores/ui-store';
 
-import { OpenImportAssetDialog } from '../../wailsjs/go/main/App';
+import {
+  OpenImportAssetDialog,
+  ValidateImportedMapArchives,
+} from '../../wailsjs/go/main/App';
 import type { types } from '../../wailsjs/go/models';
 
 function localManifestBase(
@@ -154,14 +144,8 @@ function localModManifestFromInstalled(
   } as unknown as types.ModManifest;
 }
 
-function conflictSourceLabel(conflict: types.MapCodeConflict): string {
-  if (conflict.existingAssetId?.startsWith('vanilla:')) return 'Vanilla';
-  return conflict.existingIsLocal ? 'Local' : 'Registry';
-}
-
 const INSTALL_ACCENT = getLocalAccentClasses('install');
 const IMPORT_ACCENT = getLocalAccentClasses('import');
-const FILES_ACCENT = getLocalAccentClasses('files');
 
 export function LibraryPage() {
   const [, navigate] = useLocation();
@@ -171,12 +155,11 @@ export function LibraryPage() {
   const setSidebarOpen = useUIStore((s) => s.setLibrarySidebarOpen);
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [importLoading, setImportLoading] = useState(false);
-  const [importSelectedPath, setImportSelectedPath] = useState('');
-  const [importConflict, setImportConflict] =
-    useState<types.MapCodeConflict | null>(null);
-  const [importInvalidCode, setImportInvalidCode] = useState<string | null>(
-    null,
-  );
+  // Pre-flight import review: every validated archive (new / conflict / invalid)
+  // the user reviews before choosing a single policy for the whole set.
+  const [importReview, setImportReview] = useState<
+    types.ImportArchiveValidation[] | null
+  >(null);
   const [pendingUpdatesByKey, setPendingUpdatesByKey] =
     useState<PendingUpdatesByKey>({});
 
@@ -315,15 +298,17 @@ export function LibraryPage() {
   const statusCounts = useMemo(() => {
     let local = 0,
       incompatible = 0,
-      test = 0;
+      test = 0,
+      compatible = 0;
     for (const item of installedItems) {
       if (item.type !== filters.type) continue;
       if (item.isLocal) local++;
       if (!item.isLocal && item.item.is_test === true) test++;
       if (isInstalledCompatible(gameVersion, item.constraints ?? []) === false)
         incompatible++;
+      else compatible++;
     }
-    return { local, incompatible, test };
+    return { local, incompatible, test, compatible };
   }, [installedItems, filters.type, gameVersion]);
 
   const handleInstallBrowse = useCallback(() => {
@@ -361,34 +346,74 @@ export function LibraryPage() {
     [installedMapItems, installedModItems],
   );
 
-  const runImport = async (zipPath: string, replaceOnConflict: boolean) => {
+  const summarizeImport = (s: {
+    imported: number;
+    failed: number;
+    total: number;
+    lockAborted: boolean;
+  }) => {
+    if (s.lockAborted) return; // lock-error toast already shown
+    if (s.total === 1) {
+      if (s.imported) toast.success('Map imported successfully.');
+      else if (s.failed) toast.error('Failed to import map.');
+      return;
+    }
+    const parts: string[] = [];
+    if (s.imported) parts.push(`${s.imported} imported`);
+    if (s.failed) parts.push(`${s.failed} failed`);
+    const summary = parts.join(', ');
+    if (s.failed) toast.error(`Import finished: ${summary}.`);
+    else toast.success(`${s.imported} maps imported.`);
+  };
+
+  // Imports each archive with its pre-resolved replace flag. Conflicts and
+  // invalid archives are decided up front, so the loop just runs jobs in order;
+  // the backend serializes the work and the queue counter drives the same "n/N"
+  // progress indicator installs use.
+  const runImportBatch = async (
+    jobs: Array<{ path: string; replace: boolean }>,
+  ) => {
+    if (jobs.length === 0) return;
+    const queue = useDownloadQueueStore.getState();
+    jobs.forEach(() => queue.enqueue());
+
+    let imported = 0;
+    let failed = 0;
+    let processed = 0;
+    let lockAborted = false;
+
+    for (const job of jobs) {
+      try {
+        await importMapFromZip(job.path, job.replace);
+        imported++;
+      } catch (err) {
+        if (handleSubscriptionMutationError(err, () => {})) {
+          lockAborted = true; // game running — the rest will fail too
+        } else {
+          failed++;
+        }
+      }
+      queue.complete();
+      processed++;
+      if (lockAborted) break;
+    }
+
+    // Clear the counter for any jobs the lock-abort skipped.
+    for (let k = processed; k < jobs.length; k++) queue.complete();
+
+    void updateInstalledLists();
+    void refreshPendingSubscriptionUpdates();
+    summarizeImport({ imported, failed, total: jobs.length, lockAborted });
+  };
+
+  const executeImport = async (
+    jobs: Array<{ path: string; replace: boolean }>,
+  ) => {
+    setImportReview(null);
+    if (jobs.length === 0) return;
     setImportLoading(true);
     try {
-      const result = await importMapFromZip(zipPath, replaceOnConflict);
-      if (result.status === 'warn') {
-        toast.warning(result.message || 'Map imported with warnings.');
-      } else {
-        toast.success(result.message || 'Map imported successfully.');
-      }
-      void updateInstalledLists();
-      void refreshPendingSubscriptionUpdates();
-      setImportConflict(null);
-      setImportSelectedPath('');
-      setImportDialogOpen(false);
-    } catch (err) {
-      if (err instanceof AssetConflictError && err.conflicts.length > 0) {
-        setImportConflict(err.conflicts[0]);
-        return;
-      }
-      if (err instanceof InvalidMapCodeError) {
-        setImportInvalidCode(err.message);
-        return;
-      }
-      if (handleSubscriptionMutationError(err, () => {})) {
-        return;
-      }
-      setImportSelectedPath('');
-      toast.error('Failed to import map.');
+      await runImportBatch(jobs);
     } finally {
       setImportLoading(false);
     }
@@ -397,20 +422,31 @@ export function LibraryPage() {
   const handlePickArchive = async () => {
     if (importLoading) return;
     setImportLoading(true);
+    let validations: types.ImportArchiveValidation[] | null = null;
     try {
       const selection = await OpenImportAssetDialog('map');
       if (selection.status === 'error') {
-        toast.error('Failed to import map.');
+        toast.error('Failed to open import dialog.');
         return;
       }
-      if (selection.status === 'warn' || !selection.path?.trim()) {
+      const paths = selection.paths ?? [];
+      if (selection.status === 'warn' || paths.length === 0) return;
+      setImportDialogOpen(false);
+
+      const validationResp = await ValidateImportedMapArchives(paths);
+      if (validationResp.status !== 'success') {
+        toast.error('Failed to validate map archives.');
         return;
       }
-      setImportSelectedPath(selection.path);
-      await runImport(selection.path, false);
+      validations = validationResp.validations ?? [];
     } finally {
       setImportLoading(false);
     }
+    if (!validations || validations.length === 0) return;
+
+    // Always review before importing — even an all-new set so the user can
+    // confirm the count and policy.
+    setImportReview(validations);
   };
 
   const handleSidebarFiltersChange = useCallback(
@@ -490,123 +526,11 @@ export function LibraryPage() {
           emptyLabels={SEARCH_FILTER_EMPTY_LABELS}
           minimumVisibleOptions={2}
           statusContent={
-            <>
-              <Separator />
-              <div>
-                <p
-                  className={cn(FILTER_SECTION_TITLE_CLASS, 'mb-1 px-1 py-1.5')}
-                >
-                  Asset Status
-                </p>
-                <nav className="space-y-0.5" aria-label="Asset status filter">
-                  {[
-                    {
-                      key: 'test' as const,
-                      label: 'Test',
-                      Icon: FlaskConical,
-                      iconColor: 'text-(--update-primary)',
-                      activeText: 'text-(--update-primary)',
-                      activeBg:
-                        'bg-[color-mix(in_srgb,var(--update-primary)_12%,transparent)]',
-                      activePill: 'bg-[var(--update-primary)]',
-                      hoverBg:
-                        'group-hover:bg-[color-mix(in_srgb,var(--update-primary)_10%,transparent)]',
-                      hoverText: 'group-hover:text-(--update-primary)',
-                      count: statusCounts.test,
-                    },
-                    {
-                      key: 'local' as const,
-                      label: 'Local',
-                      Icon: HardDrive,
-                      iconColor: 'text-amber-500',
-                      activeText: 'text-amber-600 dark:text-amber-400',
-                      activeBg: 'bg-amber-500/10',
-                      activePill: 'bg-amber-500',
-                      hoverBg: 'group-hover:bg-amber-500/10',
-                      hoverText:
-                        'group-hover:text-amber-600 dark:group-hover:text-amber-400',
-                      count: statusCounts.local,
-                    },
-                    {
-                      key: 'incompatible' as const,
-                      label: 'Incompatible',
-                      Icon: CircleAlert,
-                      iconColor: 'text-red-500',
-                      activeText: 'text-red-600 dark:text-red-400',
-                      activeBg: 'bg-red-500/10',
-                      activePill: 'bg-red-500',
-                      hoverBg: 'group-hover:bg-red-500/10',
-                      hoverText:
-                        'group-hover:text-red-600 dark:group-hover:text-red-400',
-                      count: statusCounts.incompatible,
-                    },
-                  ]
-                    .filter(
-                      ({ key, count }) =>
-                        count > 0 || statusFilters.includes(key),
-                    )
-                    .map(
-                      ({
-                        key,
-                        label,
-                        Icon,
-                        iconColor,
-                        activeText,
-                        activeBg,
-                        activePill,
-                        hoverBg,
-                        hoverText,
-                        count,
-                      }) => {
-                        const active = statusFilters.includes(key);
-                        return (
-                          <button
-                            key={key}
-                            type="button"
-                            onClick={() => toggleStatusFilter(key)}
-                            aria-pressed={active}
-                            className="group relative w-full text-left"
-                          >
-                            <span
-                              className={cn(
-                                'mr-0.5 flex items-center gap-2 rounded-lg px-2',
-                                'py-[clamp(0.38rem,0.8vw,0.52rem)]',
-                                'text-[clamp(0.78rem,0.9vw,0.86rem)] font-semibold',
-                                'transition-all duration-150',
-                                active
-                                  ? `${activeBg} ${activeText}`
-                                  : `text-muted-foreground ${hoverBg} ${hoverText}`,
-                              )}
-                            >
-                              <Icon
-                                className={cn(
-                                  'h-3.5 w-3.5 shrink-0 transition-colors',
-                                  iconColor,
-                                )}
-                              />
-                              <span className="flex-1">{label}</span>
-                              {count > 0 && (
-                                <span className={FILTER_COUNT_BADGE_CLASS}>
-                                  {count}
-                                </span>
-                              )}
-                            </span>
-                            {active && (
-                              <span
-                                aria-hidden
-                                className={cn(
-                                  'absolute right-0 top-0 h-full w-1.25 rounded-full',
-                                  activePill,
-                                )}
-                              />
-                            )}
-                          </button>
-                        );
-                      },
-                    )}
-                </nav>
-              </div>
-            </>
+            <AssetStatusFilterSection
+              activeFilters={statusFilters}
+              counts={statusCounts}
+              onToggle={toggleStatusFilter}
+            />
           }
         />
       </AssetSidebarPanel>
@@ -661,7 +585,7 @@ export function LibraryPage() {
             disabled={mutationLocked}
           >
             <Inbox className="h-4 w-4" />
-            Import Asset
+            Import Assets
           </Button>
         </div>
 
@@ -761,11 +685,11 @@ export function LibraryPage() {
         onOpenChange={setImportDialogOpen}
         title="Import"
         icon={FileArchive}
-        description="Import a local map ZIP into your Library. Local assets are tracked separately from registry assets."
+        description="Import one or more local map ZIPs into your Library. Select multiple archives to queue them together. Local assets are tracked separately from registry assets."
         tone="import"
         confirm={withLockAwareConfirm(
           {
-            label: 'Choose ZIP',
+            label: 'Choose ZIP(s)',
             cancelLabel: 'Close',
             onConfirm: handlePickArchive,
             loading: importLoading,
@@ -784,62 +708,34 @@ export function LibraryPage() {
         </div>
       </AppDialog>
 
-      {importConflict && (
-        <AppDialog
-          open={!!importConflict}
+      {importReview && (
+        <ImportReviewDialog
+          open={!!importReview}
           onOpenChange={(value) => {
-            if (!value) setImportConflict(null);
+            if (!value) setImportReview(null);
           }}
-          title="Replace Conflicting Map"
-          icon={AlertTriangle}
-          description="This local import conflicts with an existing map. Replace the existing map to continue."
-          tone="files"
-          confirm={withLockAwareConfirm(
-            {
-              label: 'Replace',
-              onConfirm: () => {
-                if (!importSelectedPath) return;
-                void runImport(importSelectedPath, true);
-              },
-              loading: importLoading,
-            },
-            mutationLocked,
-            mutationLockedReason,
-          )}
-        >
-          <div
-            className={cn(
-              FILES_ACCENT.dialogPanel,
-              'rounded-md border bg-muted/30 px-3 py-2 text-xs text-muted-foreground',
-            )}
-          >
-            <p className="font-medium text-foreground">
-              Conflicting City Code: {importConflict.cityCode}
-            </p>
-            <p className="mt-1">
-              Existing Asset: {importConflict.existingAssetId} (
-              {conflictSourceLabel(importConflict)})
-            </p>
-            {importConflict.existingVersion ? (
-              <p className="mt-1">
-                Existing Version: {importConflict.existingVersion}
-              </p>
-            ) : null}
-          </div>
-        </AppDialog>
-      )}
-
-      {importInvalidCode && (
-        <AppDialog
-          open={!!importInvalidCode}
-          onOpenChange={(value) => {
-            if (!value) setImportInvalidCode(null);
-          }}
-          title="Invalid Local Map Code"
-          icon={AlertTriangle}
-          description={`${importInvalidCode} Local map codes must be 2-4 uppercase letters (e.g. "AAA").`}
-          tone="files"
-          confirm={{ label: 'OK', onConfirm: () => setImportInvalidCode(null) }}
+          items={importReview}
+          loading={importLoading}
+          onCancel={() => setImportReview(null)}
+          onImportNewOnly={() =>
+            executeImport(
+              importReview
+                .filter((item) => item.status === 'new')
+                .map((item) => ({ path: item.path, replace: false })),
+            )
+          }
+          onReplaceAll={() =>
+            executeImport(
+              importReview
+                .filter(
+                  (item) => item.status === 'new' || item.status === 'conflict',
+                )
+                .map((item) => ({
+                  path: item.path,
+                  replace: item.status === 'conflict',
+                })),
+            )
+          }
         />
       )}
     </>

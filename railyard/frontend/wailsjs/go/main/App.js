@@ -65,3 +65,7 @@ export function SandboxIsInstalled() {
 export function StopGame() {
   return window['go']['main']['App']['StopGame']();
 }
+
+export function ValidateImportedMapArchives(arg1) {
+  return window['go']['main']['App']['ValidateImportedMapArchives'](arg1);
+}

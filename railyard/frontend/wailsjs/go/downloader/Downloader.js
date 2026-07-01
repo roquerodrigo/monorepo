@@ -10,6 +10,10 @@ export function ComputeDependencyList(arg1, arg2) {
   return window['go']['downloader']['Downloader']['ComputeDependencyList'](arg1, arg2);
 }
 
+export function DetectedGameVersion() {
+  return window['go']['downloader']['Downloader']['DetectedGameVersion']();
+}
+
 export function FindMapCodeConflict(arg1, arg2, arg3) {
   return window['go']['downloader']['Downloader']['FindMapCodeConflict'](arg1, arg2, arg3);
 }
@@ -24,4 +28,8 @@ export function InstallAsset(arg1) {
 
 export function UninstallAsset(arg1, arg2) {
   return window['go']['downloader']['Downloader']['UninstallAsset'](arg1, arg2);
+}
+
+export function ValidateImportedMapArchive(arg1) {
+  return window['go']['downloader']['Downloader']['ValidateImportedMapArchive'](arg1);
 }

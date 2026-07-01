@@ -164,6 +164,7 @@ func (a *App) startup(ctx context.Context) {
 			a.Logger.Error("Failed to initialize AppImage mount", err)
 			a.appImageMount = nil
 		} else {
+			a.Logger.Info("AppImage mount initialized", "mountPath", appImageMount.AppImageMountPath)
 			a.appImageMount = appImageMount
 		}
 	}
@@ -229,7 +230,9 @@ func (a *App) shutdown(ctx context.Context) {
 	}
 
 	if a.appImageMount != nil {
-		a.appImageMount.Close()
+		if err := a.appImageMount.Close(); err != nil {
+			log.Printf("Warning: failed to unmount AppImage on shutdown: %v", err)
+		}
 	}
 	a.cleanupTmpStaging("shutdown")
 }
@@ -419,9 +422,11 @@ func (a *App) GetGameVersion() types.GameVersionResponse {
 		asarPath = foundPath
 	case isAppImagePath(exePath):
 		if a.appImageMount != nil {
+			a.Logger.Info("Using existing AppImage mount for game version detection", "exePath", exePath, "mountPath", a.appImageMount.AppImageMountPath)
 			mountPath := a.appImageMount.AppImageMountPath
 			asarPath = filepath.Join(mountPath, constants.GameAsarRelPath)
 		} else {
+			a.Logger.Info("Mounting AppImage for game version detection", "exePath", exePath)
 			if appImageMount, err := newAppImageMount(exePath); err != nil {
 				a.Logger.Error("Failed to mount AppImage for game version detection", err, "exePath", exePath)
 				return notDetected
@@ -562,7 +567,12 @@ func (a *App) LaunchGame(skipIncompatibleMaps bool) types.GenericResponse {
 		if _, lookPathErr := exec.LookPath("flatpak-spawn"); lookPathErr == nil {
 			if a.Config.Cfg.ChromeSandboxPath != "" {
 				// Ensure sandbox is used if available to avoid permission issues in Flatpak environments
-				args := []string{"--env=CHROME_DEVEL_SANDBOX=" + a.Config.Cfg.ChromeSandboxPath, "--host", exePath}
+				args := []string{"--env=CHROME_DEVEL_SANDBOX=" + a.Config.Cfg.ChromeSandboxPath}
+				// Pass it through --env because thats how flatpak-spawn works
+				if profile.Status == types.ResponseSuccess && profile.Profile.SystemPreferences.UseDevTools {
+					args = append(args, "--env=DEBUG_PROD=TRUE")
+				}
+				args = append(args, "--host", exePath)
 				args = append(args, extraSplitArgs...)
 				cmd = exec.Command("flatpak-spawn", args...)
 			} else {
@@ -575,9 +585,7 @@ func (a *App) LaunchGame(skipIncompatibleMaps bool) types.GenericResponse {
 			a.Logger.Warn("flatpak-spawn not available; falling back to direct executable launch", "error", lookPathErr)
 			cmd = exec.Command(exePath, extraSplitArgs...)
 			cmd.Dir = filepath.Dir(exePath)
-		}
-		if profile.Status == types.ResponseSuccess {
-			if profile.Profile.SystemPreferences.UseDevTools {
+			if profile.Status == types.ResponseSuccess && profile.Profile.SystemPreferences.UseDevTools {
 				cmd.Env = append(os.Environ(), "DEBUG_PROD=TRUE")
 			}
 		}

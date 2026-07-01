@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -97,10 +98,10 @@ var autoPurgeDownloadErrorTypes = map[DownloaderErrorType]struct{}{
 	InstallErrorChecksumFailed:  {},
 	// Error for a version removed from the installable set while the app is running; ReconcileSubscriptionVersions repairs the same condition before sync at startup.
 	InstallErrorVersionNotFound: {},
-	// Game version incompatibility errors: subscription is purged so the user is not saddled with an asset that silently never installs.
-	// The initial failure is still surfaced to the user before purge.
+	// Confirmed incompatibility (game detected, constraint violated): purge so the user is not saddled with an asset that silently never installs.
 	InstallErrorIncompatibleGameVersion: {},
-	InstallErrorGameVersionUndetectable: {},
+	// IMPORTANT: InstallErrorGameVersionUndetectable is deliberately NOT purged — an undetectable version (misconfigured exe, early startup) is an unknown, not an incompatibility verdict
+	// In this case the install is blocked but the subscription is preserved for retry.
 }
 
 func AutoPurgeDownloadErrors(err DownloaderErrorType) bool {
@@ -232,9 +233,106 @@ func NormalizeSemver(version string) string {
 	return "v" + trimmed
 }
 
+// ParseSemver parses a version string, tolerating an optional "v" prefix.
+func ParseSemver(version string) (*semver.Version, error) {
+	return semver.NewVersion(strings.TrimPrefix(strings.TrimSpace(version), "v"))
+}
+
+// IsSemverNewer reports whether candidate is a strictly newer semver than current.
+func IsSemverNewer(candidate, current string) (bool, error) {
+	candidateVer, err := ParseSemver(candidate)
+	if err != nil {
+		return false, err
+	}
+	currentVer, err := ParseSemver(current)
+	if err != nil {
+		return false, err
+	}
+	return candidateVer.GreaterThan(currentVer), nil
+}
+
+// SemverSatisfiesConstraint reports whether version satisfies a semver range.
+// An empty range imposes no requirement; a malformed range is treated as
+// satisfied (the err is returned so callers may log it) so a bad constraint
+// never hides an otherwise-valid result.
+func SemverSatisfiesConstraint(version *semver.Version, rangeExpr string) (bool, error) {
+	rangeExpr = strings.TrimSpace(rangeExpr)
+	if rangeExpr == "" {
+		return true, nil
+	}
+	constraint, err := semver.NewConstraint(strings.TrimPrefix(rangeExpr, "v"))
+	if err != nil {
+		return true, err
+	}
+	return constraint.Check(version), nil
+}
+
+// UnsatisfiedConstraints returns every constraint the game version fails, buildings-index first.
+func UnsatisfiedConstraints(gameVersion *semver.Version, constraints []InstalledConstraint) []InstalledConstraint {
+	failing := make([]InstalledConstraint, 0, len(constraints))
+	for _, c := range constraints {
+		if satisfied, _ := SemverSatisfiesConstraint(gameVersion, c.Range); !satisfied {
+			failing = append(failing, c)
+		}
+	}
+	// Buildings-index is the more specific format requirement, so surface it first.
+	sort.SliceStable(failing, func(i, _ int) bool {
+		return failing[i].Type == ConstraintTypeBuildingsIndex
+	})
+	return failing
+}
+
+// IncompatibleGameVersionMessage is the base sentence for incompatibility surfaces, mirrored in the frontend.
+const IncompatibleGameVersionMessage = "Not compatible with your game version"
+
+// DescribeConstraint phrases a failing constraint for the user, e.g.
+// "Game version: needs 1.3.0 or newer (you have 1.2.0)".
+func DescribeConstraint(c InstalledConstraint, gameVersion string) string {
+	label := "Game version"
+	if c.Type == ConstraintTypeBuildingsIndex {
+		label = "Buildings format"
+	}
+	return label + ": needs " + humanizeSemverRange(c.Range) + " (you have " + gameVersion + ")"
+}
+
+// DescribeIncompatibility builds the full incompatibility message, or "" when compatible.
+func DescribeIncompatibility(gameVersion *semver.Version, constraints []InstalledConstraint) string {
+	failing := UnsatisfiedConstraints(gameVersion, constraints)
+	if len(failing) == 0 {
+		return ""
+	}
+	reasons := make([]string, len(failing))
+	for i, c := range failing {
+		reasons[i] = DescribeConstraint(c, gameVersion.String())
+	}
+	return IncompatibleGameVersionMessage + ". " + strings.Join(reasons, "; ")
+}
+
+// humanizeSemverRange turns a single-operator semver range into plain language.
+func humanizeSemverRange(rangeExpr string) string {
+	r := strings.TrimSpace(rangeExpr)
+	// Two-char operators first so ">=" is not matched as ">".
+	for _, o := range []struct{ op, prefix, suffix string }{
+		{">=", "", " or newer"},
+		{"<=", "", " or older"},
+		{">", "newer than ", ""},
+		{"<", "older than ", ""},
+		{"=", "exactly ", ""},
+	} {
+		if strings.HasPrefix(r, o.op) {
+			version := strings.TrimPrefix(strings.TrimSpace(strings.TrimPrefix(r, o.op)), "v")
+			if version == "" || strings.ContainsAny(version, " ,|") {
+				return rangeExpr // compound / empty → leave raw
+			}
+			return o.prefix + version + o.suffix
+		}
+	}
+	return rangeExpr
+}
+
 // DetectedVersion returns the detected game version as parsed semver.
 func (r GameVersionResponse) DetectedVersion() (*semver.Version, bool) {
-	// No version detecteed
+	// No version detected
 	if r.Status != ResponseSuccess || r.Version == "" {
 		return nil, false
 	}

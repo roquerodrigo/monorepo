@@ -51,10 +51,17 @@ import {
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { AssetStatusFilterSection } from '@/components/shared/AssetStatusFilterSection';
 import { ItemCard } from '@/components/shared/ItemCard';
 import { SidebarPanel } from '@/components/shared/SidebarPanel';
 import { useFilteredItems } from '@/hooks/use-filtered-items';
 import { preloadGalleryImage } from '@/hooks/use-gallery-image';
+import { useGameVersion } from '@/hooks/use-game-version';
+import {
+  type AssetRef,
+  composeIncompatibleKey,
+  useIncompatibleAssetKeys,
+} from '@/hooks/use-incompatible-asset-keys';
 import { createRandomSeed, useBrowseStore } from '@/stores/browse-store';
 import { useInstalledStore } from '@/stores/installed-store';
 import { useProfileStore } from '@/stores/profile-store';
@@ -89,7 +96,10 @@ function BrowsePageContent({
   const viewMode = useBrowseStore((s) => s.viewMode);
   const setViewMode = useBrowseStore((s) => s.setViewMode);
   const initializeViewMode = useBrowseStore((s) => s.initializeViewMode);
+  const statusFilters = useBrowseStore((s) => s.statusFilters);
+  const toggleStatusFilter = useBrowseStore((s) => s.toggleStatusFilter);
   const defaultBrowseViewMode = useProfileStore((s) => s.searchViewMode());
+  const gameVersion = useGameVersion();
 
   const mods = useRegistryStore((s) => s.mods);
   const maps = useRegistryStore((s) => s.maps);
@@ -100,6 +110,14 @@ function BrowsePageContent({
   const ensureDownloadTotals = useRegistryStore((s) => s.ensureDownloadTotals);
   const installedMaps = useInstalledStore((s) => s.installedMaps);
   const installedMods = useInstalledStore((s) => s.installedMods);
+  const incompatibleAssetRefs = useMemo<AssetRef[]>(
+    () => [
+      ...mods.map((item) => ({ type: 'mod' as const, id: item.id })),
+      ...maps.map((item) => ({ type: 'map' as const, id: item.id })),
+    ],
+    [mods, maps],
+  );
+  const incompatibleItemKeys = useIncompatibleAssetKeys(incompatibleAssetRefs);
 
   const modManifestById = useMemo(
     () => new Map(mods.map((manifest) => [manifest.id, manifest])),
@@ -181,7 +199,30 @@ function BrowsePageContent({
     setType,
     setPage,
     dimCounts: filteredDimCounts,
-  } = useFilteredItems({ mods, maps, modDownloadTotals, mapDownloadTotals });
+  } = useFilteredItems({
+    mods,
+    maps,
+    modDownloadTotals,
+    mapDownloadTotals,
+    incompatibleItemKeys,
+  });
+
+  const statusCounts = useMemo(() => {
+    const typedItems = filters.type === 'mod' ? mods : maps;
+    return {
+      compatible: typedItems.filter(
+        (item) =>
+          !incompatibleItemKeys.has(
+            composeIncompatibleKey(filters.type, item.id),
+          ),
+      ).length,
+      test: typedItems.filter((item) => item.is_test === true).length,
+      local: 0,
+      incompatible: typedItems.filter((item) =>
+        incompatibleItemKeys.has(composeIncompatibleKey(filters.type, item.id)),
+      ).length,
+    };
+  }, [filters.type, incompatibleItemKeys, maps, mods]);
 
   const sortFieldOptions = useMemo(
     () => getSortFieldOptions(filters.type),
@@ -330,6 +371,13 @@ function BrowsePageContent({
             formatSourceQuality={formatSourceQuality}
             emptyLabels={SEARCH_FILTER_EMPTY_LABELS}
             minimumVisibleOptions={2}
+            statusContent={
+              <AssetStatusFilterSection
+                activeFilters={statusFilters}
+                counts={statusCounts}
+                onToggle={toggleStatusFilter}
+              />
+            }
           />
         ),
       }}
@@ -398,6 +446,11 @@ function BrowsePageContent({
                 installedVersion={installedVersionByItemKey.get(
                   `${itemType}-${item.id}`,
                 )}
+                incompatible={incompatibleItemKeys.has(
+                  composeIncompatibleKey(itemType, item.id),
+                )}
+                gameVersion={gameVersion}
+                test={item.is_test === true}
                 totalDownloads={
                   itemType === 'mod'
                     ? (modDownloadTotals[item.id] ?? 0)
