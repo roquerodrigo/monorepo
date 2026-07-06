@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "id": "calgary",
+  "name": "Calgary",
+  "author": "devenperez",
+  "github_id": 63876261,
+  "description": "Custom map of Calgary and its surrounding metro area. (Credit to @expedtadam for making original maps)",
+  "tags": [
+    "north-america",
+    "airports",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp",
+    "gallery/screenshot2.webp",
+    "gallery/screenshot3.webp"
+  ],
+  "source": "https://github.com/devenperez/subway-builder-canadian-maps",
+  "update": {
+    "type": "custom",
+    "url": "https://raw.githubusercontent.com/devenperez/subway-builder-canadian-maps/refs/heads/main/railyard/YYC-update.json"
+  },
+  "city_code": "YYC",
+  "country": "CA",
+  "population": 890139,
+  "level_of_detail": "high-detail",
+  "source_quality": "medium-quality",
+  "data_source": "STATCAN",
+  "location": "north-america",
+  "special_demand": [
+    "airports",
+    "universities"
+  ],
+  "residents_total": 890139,
+  "points_count": 3571,
+  "population_count": 7422,
+  "initial_view_state": {
+    "latitude": 51.0278,
+    "longitude": -114.087085,
+    "zoom": 13,
+    "bearing": 0
+  },
+  "file_sizes": {
+    "YYC.pmtiles": 39.56,
+    "buildings_index.json": 154.39,
+    "config.json": 0,
+    "demand_data.json": 1.8,
+    "roads.geojson": 14.61,
+    "runways_taxiways.geojson": 1.42
+  },
+  "is_test": false,
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.2436987271953868,
+      "p25": 0.26182227879531944,
+      "p50": 0.29211819448081383,
+      "p75": 0.33496858923344297,
+      "p90": 0.3872574305988378,
+      "mean": 0.3313023046534343
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.2519493753428897,
+      "p25": 0.27767384527987665,
+      "p50": 0.32464160781435186,
+      "p75": 0.45650103765854183,
+      "p90": 0.827500094561029,
+      "mean": 0.4725961517803106
+    },
+    "commuteDistanceKm": {
+      "p10": 2563,
+      "p25": 6686,
+      "p50": 12593,
+      "p75": 19860,
+      "p90": 27987,
+      "mean": 14438.33414174077
+    },
+    "residentCellDensity": {
+      "p10": 118,
+      "p25": 372,
+      "p50": 847,
+      "p75": 1316,
+      "p90": 1744,
+      "mean": 922.1130705394191
+    },
+    "workerCellDensity": {
+      "p10": 110,
+      "p25": 179,
+      "p50": 369,
+      "p75": 706,
+      "p90": 1578,
+      "mean": 835.4567669172932
+    },
+    "detail": {
+      "radiusKm": 0.30795084076533535,
+      "expectedPointSpacingKm": 0.5833016620064339,
+      "normalizedRadius": 0.5279443910823944,
+      "activityPerPoint": 249.26883225987117,
+      "playableAreaKm2": 1356,
+      "playableAreaPerPointKm2": 0.37972556706804816,
+      "playableCatchmentRadiusKm": 0.3476642087338094,
+      "localityScore": 0.5647702353290375,
+      "deaggregationScore": 1,
+      "score": 0.7515119661915155
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0,
+        "continuousScore": 0.420190892085248,
+        "detectedCenterCount": 1,
+        "effectiveCenterCount": 1,
+        "largestCenterShare": 1,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -114.05979539712341,
+            "latitude": 51.04936458985615,
+            "massShare": 1,
+            "assignedMass": 1780278,
+            "assignedPointCount": 3512,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1772150400,
+  "search_aliases": [
+    "カルガリー",
+    "캘거리",
+    "Калгари",
+    "קלגרי",
+    "कैलगरी",
+    "Κάλγκαρι",
+    "كالغاري",
+    "Kalqari",
+    "Kalgaris",
+    "Kalgari",
+    "Калгары",
+    "Калгарі",
+    "კალგარი",
+    "แคลกะรี",
+    "Կալգարի",
+    "卡尔加里"
+  ]
+}

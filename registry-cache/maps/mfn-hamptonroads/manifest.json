@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "id": "mfn-hamptonroads",
+  "name": "Norfolk",
+  "author": "crumpetime",
+  "github_id": 121749023,
+  "description": "A custom map containing the Hampton Roads area with LODES demand data.",
+  "tags": [
+    "north-america",
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp"
+  ],
+  "source": "https://github.com/crumpetime/sb-maps-orf",
+  "update": {
+    "type": "github",
+    "repo": "crumpetime/sb-maps-orf"
+  },
+  "city_code": "ORF",
+  "country": "US",
+  "population": 760588,
+  "residents_total": 760588,
+  "points_count": 2322,
+  "population_count": 61472,
+  "data_source": "LODES",
+  "source_quality": "high-quality",
+  "level_of_detail": "high-detail",
+  "location": "north-america",
+  "special_demand": [
+    "airports",
+    "entertainment",
+    "parks",
+    "universities"
+  ],
+  "initial_view_state": {
+    "latitude": 36.913529,
+    "longitude": -76.321335,
+    "zoom": 12,
+    "bearing": 0
+  },
+  "file_sizes": {
+    "ORF.pmtiles": 64.89,
+    "buildings_index.json": 196.99,
+    "config.json": 0,
+    "demand_data.json": 9.92,
+    "ocean_depth_index.json": 0.8,
+    "roads.geojson": 23.22,
+    "runways_taxiways.geojson": 2.19
+  },
+  "is_test": false,
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.3411736567709268,
+      "p25": 0.4511637589089296,
+      "p50": 0.6075430188226307,
+      "p75": 0.7781088050415126,
+      "p90": 1.0414553904429995,
+      "mean": 0.6603981026185075
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.24535632986966532,
+      "p25": 0.29776139723962103,
+      "p50": 0.43652809564138423,
+      "p75": 0.6663463825429763,
+      "p90": 0.9699111715032348,
+      "mean": 0.5293690626247678
+    },
+    "commuteDistanceKm": {
+      "p10": 6612,
+      "p25": 13486,
+      "p50": 25759,
+      "p75": 43011,
+      "p90": 63120,
+      "mean": 30861.66973581468
+    },
+    "residentCellDensity": {
+      "p10": 11,
+      "p25": 41,
+      "p50": 232,
+      "p75": 639,
+      "p90": 1144,
+      "mean": 451.6437054631829
+    },
+    "workerCellDensity": {
+      "p10": 5,
+      "p25": 27,
+      "p50": 133,
+      "p75": 411,
+      "p90": 1085,
+      "mean": 512.0774410774411
+    },
+    "detail": {
+      "radiusKm": 0.5149850454400211,
+      "expectedPointSpacingKm": 0.8688800993495307,
+      "normalizedRadius": 0.5926997819671024,
+      "activityPerPoint": 327.557278208441,
+      "playableAreaKm2": 4624,
+      "playableAreaPerPointKm2": 1.9913867355727821,
+      "playableCatchmentRadiusKm": 0.7961646093290524,
+      "localityScore": 0.4422697105783703,
+      "deaggregationScore": 0.4462370489502606,
+      "score": 0.44424895102698647
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0.8426366826902729,
+        "continuousScore": 0.8599100598950831,
+        "detectedCenterCount": 2,
+        "effectiveCenterCount": 1.728065828670783,
+        "largestCenterShare": 0.6983452276396682,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -76.22783309947974,
+            "latitude": 36.82771715720561,
+            "massShare": 0.6983452276396682,
+            "assignedMass": 1062306,
+            "assignedPointCount": 1426,
+            "prominenceRatio": 1
+          },
+          {
+            "longitude": -76.51174822533764,
+            "latitude": 37.11238353318699,
+            "massShare": 0.3016547723603317,
+            "assignedMass": 458870,
+            "assignedPointCount": 837,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1775628167,
+  "search_aliases": [
+    "Virginia Beach",
+    "버지니아비치",
+    "Вирджиния Бийч",
+    "バージニアビーチ",
+    "Вирджиния-Бич",
+    "فرجينيا بيتش",
+    "Вирџинија Бич",
+    "Вірджинія-Біч",
+    "Βιρτζίνια Μπιτς",
+    "Вірджынія-Біч",
+    "Վիրջինիա Բիչ",
+    "וירגיניה ביץ",
+    "Virdžīnijabīča",
+    "Virdžinija Byčas",
+    "ვირჯინია-ბიჩი",
+    "Верджиния-Бич",
+    "維珍尼亞海灘",
+    "Virciniya Biç",
+    "เวอร์จิเนียบีช",
+    "ভার্জিনিয়া বিচ",
+    "Virginian Bch"
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "id": "tri-cities",
+  "name": "Tri-Cities",
+  "author": "ryandicicco",
+  "github_id": 215120742,
+  "description": "Detailed map of the Kennewick–Pasco–Richland metro area (Tri-Cities) using US Census LODES 2023 tract-level origin-destination commute data. 334 demand points, 346K residents/jobs, 6,549 commute OD pairs. Special demand for Tri-Cities Airport (PSC; 2,700 daily pax), three universities (WSU-TC, CBC, Heritage U-TC), and TRAC event center. Includes 43,822-building collision index, multi-scale city/suburb/neighborhood labels, and PSC airport runways.",
+  "tags": [
+    "north-america",
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp",
+    "gallery/screenshot2.webp",
+    "gallery/screenshot3.webp"
+  ],
+  "is_test": false,
+  "source": "https://github.com/ryandicicco/Subway-Builder-Maps",
+  "update": {
+    "type": "custom",
+    "url": "https://raw.githubusercontent.com/ryandicicco/Subway-Builder-Maps/main/releases/PSC.json"
+  },
+  "city_code": "PSC",
+  "country": "US",
+  "population": 346040,
+  "residents_total": 346040,
+  "points_count": 334,
+  "population_count": 6659,
+  "initial_view_state": {
+    "latitude": 46.26,
+    "longitude": -119.25,
+    "zoom": 12,
+    "bearing": 0
+  },
+  "data_source": "LODES",
+  "source_quality": "high-quality",
+  "level_of_detail": "high-detail",
+  "location": "north-america",
+  "special_demand": [
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "file_sizes": {
+    "PSC.pmtiles": 7.34,
+    "buildings_index.json": 12.39,
+    "config.json": 0,
+    "demand_data.json": 1.02,
+    "roads.geojson": 3.09,
+    "runways_taxiways.geojson": 0.43
+  },
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.3872261292855209,
+      "p25": 0.48044011088541694,
+      "p50": 0.5814542937027098,
+      "p75": 0.7288051681288831,
+      "p90": 0.9880671085241535,
+      "mean": 0.6509740913253829
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.2799553342928899,
+      "p25": 0.36645732719173485,
+      "p50": 0.45065071848395577,
+      "p75": 0.7102303328253915,
+      "p90": 1.0117130450397538,
+      "mean": 0.6092658109856869
+    },
+    "commuteDistanceKm": {
+      "p10": 0,
+      "p25": 0,
+      "p50": 0,
+      "p75": 0,
+      "p90": 0,
+      "mean": 0
+    },
+    "residentCellDensity": {
+      "p10": 40,
+      "p25": 200,
+      "p50": 810,
+      "p75": 2075,
+      "p90": 3845,
+      "mean": 1560.4072398190044
+    },
+    "workerCellDensity": {
+      "p10": 45,
+      "p25": 150,
+      "p50": 530,
+      "p75": 1505,
+      "p90": 3470,
+      "mean": 1461.5086206896551
+    },
+    "detail": {
+      "radiusKm": 0.5118913900650286,
+      "expectedPointSpacingKm": 0.8651606752574784,
+      "normalizedRadius": 0.5916720497180317,
+      "activityPerPoint": 1036.0479041916167,
+      "playableAreaKm2": 640,
+      "playableAreaPerPointKm2": 1.9161676646706587,
+      "playableCatchmentRadiusKm": 0.7809834257206598,
+      "localityScore": 0.4441072544220141,
+      "deaggregationScore": 0.48392511991417736,
+      "score": 0.4635888872168198
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0.9911051243621525,
+        "continuousScore": 0.5361471432370449,
+        "detectedCenterCount": 3,
+        "effectiveCenterCount": 2.9475635770941966,
+        "largestCenterShare": 0.38555513813431974,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -119.1077929198665,
+            "latitude": 46.226245839952846,
+            "massShare": 0.38555513813431974,
+            "assignedMass": 266835,
+            "assignedPointCount": 137,
+            "prominenceRatio": 0.9999999999995778
+          },
+          {
+            "longitude": -119.21336703416054,
+            "latitude": 46.21928714370941,
+            "massShare": 0.3375476823488614,
+            "assignedMass": 233610,
+            "assignedPointCount": 119,
+            "prominenceRatio": 1
+          },
+          {
+            "longitude": -119.275429858662,
+            "latitude": 46.28286910906384,
+            "massShare": 0.27689717951681886,
+            "assignedMass": 191635,
+            "assignedPointCount": 69,
+            "prominenceRatio": 0.9999999957256059
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1778716800,
+  "search_aliases": [
+    "トリシティズ",
+    "三城"
+  ]
+}

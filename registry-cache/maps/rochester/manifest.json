@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "id": "rochester",
+  "name": "Rochester",
+  "author": "rslurry",
+  "github_id": 112521174,
+  "description": "Uses 2022 LODES data for the Rochester area.\nIncludes demand for ROC airport; UR, RIT, Nazareth, St. John Fisher, and Roberts Wesleyan universities.",
+  "tags": [
+    "north-america",
+    "airports",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp"
+  ],
+  "source": "https://github.com/rslurry/subwaybuilder-maps",
+  "update": {
+    "type": "custom",
+    "url": "https://raw.githubusercontent.com/rslurry/subwaybuilder-maps/refs/heads/main/ROC.json"
+  },
+  "city_code": "ROC",
+  "country": "US",
+  "population": 270140,
+  "level_of_detail": "high-detail",
+  "source_quality": "high-quality",
+  "data_source": "LODES",
+  "location": "north-america",
+  "special_demand": [
+    "airports",
+    "universities"
+  ],
+  "residents_total": 270140,
+  "points_count": 832,
+  "population_count": 24806,
+  "initial_view_state": {
+    "latitude": 43.154,
+    "longitude": -77.608,
+    "zoom": 12,
+    "bearing": 0
+  },
+  "file_sizes": {
+    "ROC.pmtiles": 13.61,
+    "buildings_index.json": 11.8,
+    "city_config.json": 0,
+    "config.json": 0,
+    "demand_data.json": 7.28,
+    "ocean_depth_index.json": 0.93,
+    "roads.geojson": 6.47,
+    "runways_taxiways.geojson": 0.21
+  },
+  "is_test": false,
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.37380219837201023,
+      "p25": 0.5117090950344979,
+      "p50": 0.653663110346359,
+      "p75": 0.8617547783868558,
+      "p90": 1.0882427194258377,
+      "mean": 0.7010094051879521
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.24621043855692434,
+      "p25": 0.35733962085014087,
+      "p50": 0.49813239052327696,
+      "p75": 0.6925765390248623,
+      "p90": 1.0882427194258377,
+      "mean": 0.5672442946359436
+    },
+    "commuteDistanceKm": {
+      "p10": 4466,
+      "p25": 8699,
+      "p50": 14667,
+      "p75": 21353,
+      "p90": 27973,
+      "mean": 15651.831169878255
+    },
+    "residentCellDensity": {
+      "p10": 39,
+      "p25": 127,
+      "p50": 308,
+      "p75": 608,
+      "p90": 926,
+      "mean": 443.57236842105266
+    },
+    "workerCellDensity": {
+      "p10": 17,
+      "p25": 60,
+      "p50": 163,
+      "p75": 423,
+      "p90": 893,
+      "mean": 446.60199004975124
+    },
+    "detail": {
+      "radiusKm": 0.5706231398687862,
+      "expectedPointSpacingKm": 0.8569568250501305,
+      "normalizedRadius": 0.6658715155636992,
+      "activityPerPoint": 324.6875,
+      "playableAreaKm2": 943,
+      "playableAreaPerPointKm2": 1.1334134615384615,
+      "playableCatchmentRadiusKm": 0.6006469095412744,
+      "localityScore": 0.3190156467440832,
+      "deaggregationScore": 0.9978904704515983,
+      "score": 0.5642186400774739
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0,
+        "continuousScore": 0.33157077103570654,
+        "detectedCenterCount": 1,
+        "effectiveCenterCount": 1,
+        "largestCenterShare": 1,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -77.6090346326784,
+            "latitude": 43.14833661558566,
+            "massShare": 1,
+            "assignedMass": 540280,
+            "assignedPointCount": 830,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1772928000,
+  "search_aliases": [
+    "Рочестър",
+    "ロチェスター",
+    "Ročestera",
+    "Рочестер",
+    "রচেস্টার",
+    "รอเชสเตอร์",
+    "로체스터",
+    "روتشستر",
+    "रोचेस्टर",
+    "רוצסטר",
+    "Ρότσεστερ",
+    "Ročesteris",
+    "羅徹斯特"
+  ]
+}

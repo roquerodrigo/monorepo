@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "id": "helsinki",
+  "name": "Helsinki",
+  "author": "rslurry",
+  "github_id": 112521174,
+  "description": "Uses 250m x 250m population and job data from Helsinki Region Environmental Services Authority HSY.  Includes special demand for HEL airport; University of Helsinki, Aalto University, the Academy of Fine Arts, Sibelius Academy, Theatre Academy, Hanken School of Economics, National Defence University, Metropolia, DIAK, HUMAK, Haaga-Helia, Stadin AO, Diakonia College, Business College Helsinki, Alppila Upper Secondary School, Etu-Töölö Upper Secondary School, Helsingin Kielilukio, Helsinki Upper Secondary School of Natural Sciences, Helsinki Upper Secondary School of Media, Mäkelänrinne Upper Secondary School, Ressu Upper Secondary School, Vuosaari Upper Secondary School, and Laurea universities; Suomenlinna, Market Square, Linnanmäki, Korkeasaari Zoo, Ateneum, Kiasma, Amos Rex, HAM, National Museum, Temppeliaukio Church, Helsinki Cathedral, Uspenski Cathedral, Finlandia Hall, Oodi, Kaisaniemi Botanical Garden, Heureka, National Opera, National Theatre, Municipal Theatre, Musiikkitalo, Mall of Tripla, Redi, Kamppi, Forum, Itis, Sello, Iso Omena, Jumbo, Ainoa, and Kaari; and the Guard Jaeger Regiment.",
+  "tags": [
+    "europe",
+    "airports",
+    "entertainment",
+    "schools",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp",
+    "gallery/screenshot2.webp"
+  ],
+  "is_test": false,
+  "source": "https://github.com/rslurry/subwaybuilder-maps",
+  "update": {
+    "type": "custom",
+    "url": "https://raw.githubusercontent.com/rslurry/subwaybuilder-maps/refs/heads/main/HEL.json"
+  },
+  "city_code": "HEL",
+  "country": "FI",
+  "population": 877596,
+  "residents_total": 877596,
+  "points_count": 3419,
+  "population_count": 13527,
+  "initial_view_state": {
+    "latitude": 60.17096,
+    "longitude": 24.94145,
+    "zoom": 12,
+    "bearing": 0
+  },
+  "data_source": "Helsinki Region Environmental Services Authority HSY",
+  "source_quality": "high-quality",
+  "level_of_detail": "high-detail",
+  "location": "europe",
+  "special_demand": [
+    "airports",
+    "entertainment",
+    "schools",
+    "universities"
+  ],
+  "file_sizes": {
+    "HEL.pmtiles": 63.54,
+    "buildings_index.json": 74.24,
+    "config.json": 0,
+    "demand_data.json": 2.09,
+    "roads.geojson": 14.05,
+    "runways_taxiways.geojson": 0.45
+  },
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.24908594634765735,
+      "p25": 0.24908849562223548,
+      "p50": 0.2490924648609499,
+      "p75": 0.2515262801894346,
+      "p90": 0.2887130652783656,
+      "mean": 0.25910582675255667
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.15638327911471753,
+      "p25": 0.21918247120828166,
+      "p50": 0.24937673206068225,
+      "p75": 0.2852029031958777,
+      "p90": 0.3562011993169339,
+      "mean": 0.26124302201469046
+    },
+    "commuteDistanceKm": {
+      "p10": 1452,
+      "p25": 2908,
+      "p50": 6313,
+      "p75": 11166,
+      "p90": 16490,
+      "mean": 7790.4552376728025
+    },
+    "residentCellDensity": {
+      "p10": 11,
+      "p25": 38,
+      "p50": 132,
+      "p75": 1237,
+      "p90": 3016,
+      "mean": 1087.4089219330856
+    },
+    "workerCellDensity": {
+      "p10": 3,
+      "p25": 24,
+      "p50": 100,
+      "p75": 370,
+      "p90": 1450,
+      "mean": 835.8331744518589
+    },
+    "detail": {
+      "radiusKm": 0.24923455793281157,
+      "expectedPointSpacingKm": 0.6353162924555698,
+      "normalizedRadius": 0.3922999628570702,
+      "activityPerPoint": 256.6820707809301,
+      "playableAreaKm2": 1188,
+      "playableAreaPerPointKm2": 0.34747002047382275,
+      "playableCatchmentRadiusKm": 0.3325705078164658,
+      "localityScore": 0.8791972029523162,
+      "deaggregationScore": 1,
+      "score": 0.9376551620677595
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0,
+        "continuousScore": 0.614537422012477,
+        "detectedCenterCount": 1,
+        "effectiveCenterCount": 1,
+        "largestCenterShare": 1,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": 24.922803752562544,
+            "latitude": 60.20752695124519,
+            "massShare": 1,
+            "assignedMass": 1755192,
+            "assignedPointCount": 2835,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1777161600,
+  "search_aliases": [
+    "Helsingfors",
+    "Хельсинки",
+    "Khel'sinki",
+    "هلسنكي",
+    "Хельсінкі",
+    "Хелзинки",
+    "Hèlsinki",
+    "Helsinky",
+    "Ελσίνκι",
+    "Helsingi",
+    "הלסינקי",
+    "ヘルシンキ",
+    "헬싱키",
+    "Helsinkis",
+    "Helsínquia",
+    "Хелсинки",
+    "赫尔辛基",
+    "เฮลซิงกิ",
+    "Հելսինկի",
+    "ჰელსინკი",
+    "हेलसिंकी",
+    "Гельсінкі",
+    "হেলসিঙ্কি"
+  ],
+  "sub_location": "north-europe"
+}

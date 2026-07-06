@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "id": "toronto",
+  "name": "Toronto",
+  "author": "devenperez",
+  "github_id": 63876261,
+  "description": "Custom map of Toronto and its surrounding metro area. (Credit to @expedtadam for making original maps)",
+  "tags": [
+    "north-america",
+    "airports",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp",
+    "gallery/screenshot2.webp"
+  ],
+  "source": "https://github.com/devenperez/subway-builder-canadian-maps",
+  "update": {
+    "type": "custom",
+    "url": "https://raw.githubusercontent.com/devenperez/subway-builder-canadian-maps/refs/heads/main/railyard/YYZ-update.json"
+  },
+  "city_code": "YYZ",
+  "country": "CA",
+  "population": 4039209,
+  "level_of_detail": "high-detail",
+  "source_quality": "medium-quality",
+  "data_source": "STATCAN",
+  "location": "north-america",
+  "special_demand": [
+    "airports",
+    "universities"
+  ],
+  "residents_total": 4039209,
+  "points_count": 11458,
+  "population_count": 33646,
+  "initial_view_state": {
+    "latitude": 43.734055,
+    "longitude": -79.343405,
+    "zoom": 13,
+    "bearing": 0
+  },
+  "file_sizes": {
+    "YYZ.pmtiles": 98.45,
+    "buildings_index.json": 264.19,
+    "config.json": 0,
+    "demand_data.json": 7.62,
+    "roads.geojson": 41.96,
+    "runways_taxiways.geojson": 1.15
+  },
+  "is_test": false,
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.25587514122875354,
+      "p25": 0.275358039502693,
+      "p50": 0.3054280559109326,
+      "p75": 0.342802414595822,
+      "p90": 0.3847168774602125,
+      "mean": 0.3240472984310227
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.26023826300503977,
+      "p25": 0.27921141722488757,
+      "p50": 0.3233588754534134,
+      "p75": 0.4008088072348472,
+      "p90": 0.5535713755519149,
+      "mean": 0.38239295909053117
+    },
+    "commuteDistanceKm": {
+      "p10": 1917,
+      "p25": 5420,
+      "p50": 12633,
+      "p75": 24485,
+      "p90": 39511,
+      "mean": 17318.164388040183
+    },
+    "residentCellDensity": {
+      "p10": 108,
+      "p25": 412,
+      "p50": 1056,
+      "p75": 1860,
+      "p90": 2803,
+      "mean": 1359.6189835072366
+    },
+    "workerCellDensity": {
+      "p10": 125,
+      "p25": 256,
+      "p50": 576,
+      "p75": 1286,
+      "p90": 2824,
+      "mean": 1332.2483509234828
+    },
+    "detail": {
+      "radiusKm": 0.31426560850860125,
+      "expectedPointSpacingKm": 0.5592023593988139,
+      "normalizedRadius": 0.5619890603581523,
+      "activityPerPoint": 352.5612672368651,
+      "playableAreaKm2": 4106,
+      "playableAreaPerPointKm2": 0.3583522429743411,
+      "playableCatchmentRadiusKm": 0.33773815549160063,
+      "localityScore": 0.49860404569850253,
+      "deaggregationScore": 1,
+      "score": 0.7061190025048912
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0,
+        "continuousScore": 0.5735169124833714,
+        "detectedCenterCount": 1,
+        "effectiveCenterCount": 1,
+        "largestCenterShare": 1,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -79.46437375013177,
+            "latitude": 43.72108702969594,
+            "massShare": 1,
+            "assignedMass": 8079294,
+            "assignedPointCount": 11203,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1772150400,
+  "search_aliases": [
+    "تورونتو",
+    "Торонто",
+    "Τορόντο",
+    "טורונטו",
+    "トロント",
+    "토론토",
+    "Torontas",
+    "โทรอนโต",
+    "টরোন্টো",
+    "Таронта",
+    "टोरण्टो",
+    "ტორონტო",
+    "Տորոնտո",
+    "多伦多"
+  ]
+}

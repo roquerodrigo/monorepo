@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "id": "los-angeles-county",
+  "name": "Los Angeles County",
+  "author": "rslurry",
+  "github_id": 112521174,
+  "description": "Uses 2023 LODES data. Covers the heart of LA County.  Smaller version of the \"Greater Los Angeles (LAX)\" map.\nIncludes demand for LAX, BUR, LBG, and FUL airports; CSULB, CSUN, UCLA, USC, Occidental, LMU, ELAC, LACC, LAHC, LAMC, LAPC, LAVC, LASC, LATTC, and WLAC universities; Dodger Stadium, Crypto.com Arena, Knott's Berry Farm, and Huntington Beach.",
+  "tags": [
+    "north-america",
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp",
+    "gallery/screenshot2.webp"
+  ],
+  "source": "https://github.com/rslurry/subwaybuilder-maps",
+  "update": {
+    "type": "custom",
+    "url": "https://raw.githubusercontent.com/rslurry/subwaybuilder-maps/refs/heads/main/LAXM.json"
+  },
+  "city_code": "LAXM",
+  "country": "US",
+  "population": 3179061,
+  "residents_total": 3179061,
+  "points_count": 4077,
+  "population_count": 76629,
+  "data_source": "LODES",
+  "source_quality": "high-quality",
+  "level_of_detail": "high-detail",
+  "location": "north-america",
+  "special_demand": [
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "initial_view_state": {
+    "latitude": 34.05651,
+    "longitude": -118.24712,
+    "zoom": 12,
+    "bearing": 0
+  },
+  "file_sizes": {
+    "LAXM.pmtiles": 117.83,
+    "buildings_index.json": 220.37,
+    "config.json": 0,
+    "demand_data.json": 14.81,
+    "ocean_depth_index.json": 1.41,
+    "roads.geojson": 52.73,
+    "runways_taxiways.geojson": 1.48
+  },
+  "is_test": false,
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.33783753361120367,
+      "p25": 0.4576890681795205,
+      "p50": 0.6018687695742139,
+      "p75": 0.7558324954848061,
+      "p90": 0.9249738891463357,
+      "mean": 0.6253169902025458
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.1913088000809637,
+      "p25": 0.2798060021658288,
+      "p50": 0.40419796115212436,
+      "p75": 0.5806246978239282,
+      "p90": 0.7609486732904638,
+      "mean": 0.4673661866721694
+    },
+    "commuteDistanceKm": {
+      "p10": 7824,
+      "p25": 15366,
+      "p50": 26369,
+      "p75": 39146,
+      "p90": 51672,
+      "mean": 28443.398556682198
+    },
+    "residentCellDensity": {
+      "p10": 194,
+      "p25": 466,
+      "p50": 983,
+      "p75": 1775,
+      "p90": 2800,
+      "mean": 1313.9867713931376
+    },
+    "workerCellDensity": {
+      "p10": 199,
+      "p25": 353,
+      "p50": 617,
+      "p75": 1223,
+      "p90": 2289,
+      "mean": 1320.926605504587
+    },
+    "detail": {
+      "radiusKm": 0.4932282732599937,
+      "expectedPointSpacingKm": 0.778355719260272,
+      "normalizedRadius": 0.6336797701297092,
+      "activityPerPoint": 779.7549668874173,
+      "playableAreaKm2": 3484,
+      "playableAreaPerPointKm2": 0.8545499141525632,
+      "playableCatchmentRadiusKm": 0.52154739565285,
+      "localityScore": 0.37148257551038644,
+      "deaggregationScore": 1,
+      "score": 0.6094937042417965
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0.9568419710447008,
+        "continuousScore": 0.8998924824144462,
+        "detectedCenterCount": 4,
+        "effectiveCenterCount": 3.5414712444615115,
+        "largestCenterShare": 0.4039103055902356,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -118.21723287589211,
+            "latitude": 34.05932286396217,
+            "massShare": 0.4039103055902356,
+            "assignedMass": 2568111,
+            "assignedPointCount": 1546,
+            "prominenceRatio": 1
+          },
+          {
+            "longitude": -118.39532821842006,
+            "latitude": 33.96226077364648,
+            "massShare": 0.2211914146976104,
+            "assignedMass": 1406362,
+            "assignedPointCount": 744,
+            "prominenceRatio": 1
+          },
+          {
+            "longitude": -118.14504193498695,
+            "latitude": 33.83356491449873,
+            "massShare": 0.1909835954704864,
+            "assignedMass": 1214297,
+            "assignedPointCount": 887,
+            "prominenceRatio": 1
+          },
+          {
+            "longitude": -118.45768387596979,
+            "latitude": 34.20457730284676,
+            "massShare": 0.1839146842416676,
+            "assignedMass": 1169352,
+            "assignedPointCount": 853,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1777161600,
+  "search_aliases": [
+    "Los Ángeles",
+    "Los Angeles",
+    "로스앤젤레스",
+    "El Pueblo de Nuestra Señora de los Ángeles de Porciúncula",
+    "L.A.",
+    "لوس أنجلوس",
+    "Лос Анджелис",
+    "לוס אנגלס",
+    "ロサンゼルス",
+    "ლოს-ანჯელესი",
+    "Los Andželas",
+    "Лос Анџелес",
+    "Лос Анӂелес",
+    "Лос-Анджелес",
+    "Los Anxhelos",
+    "Лос Анђелес",
+    "ลอสแอนเจลิส",
+    "Λος Άντζελες",
+    "Los Anxheles",
+    "لوس آنجلس",
+    "Лос-Анджэлес",
+    "Losandželosa",
+    "Los Anjeles",
+    "Лос Анжелес",
+    "লস অ্যাঞ্জেলেস",
+    "Լոս Անջելես",
+    "लॉस एंजेलिस",
+    "Los-Anceles",
+    "洛杉矶",
+    "엘에이",
+    "로스엔젤레스"
+  ]
+}

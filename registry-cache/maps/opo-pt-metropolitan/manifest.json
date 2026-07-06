@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "id": "opo-pt-metropolitan",
+  "name": "Porto, Portugal",
+  "author": "bquelhas",
+  "github_id": 403544,
+  "description": "**Porto Metropolitan Area (AMP)** — 17 municipalities, 1.7M inhabitants.\n\n(Vibecoded with Claude )\n\n## Demand Model\n- 59,992 O/D pairs generated from **INE BGRI 2021** (census tract level)\n- **1.20M simulated passengers** — 70.6% population coverage\n- Realistic urban drive-times (20/30/60 km/h by zone + 20% congestion penalty)\n- Captive boost for low car-ownership areas (Porto ×1.8, Gaia ×1.6, Matosinhos ×1.35)\n\n## Points of Interest\n- Francisco Sá Carneiro Airport, Port of Leixões, Cruise Terminal\n- Major hospitals (São João, Santo António, Pedro Hispano) and universities (UP, FEUP, ISEP)\n- CP rail stations (Campanhã, São Bento, Devesas) and bus terminals\n- 30+ tourist POIs: Ribeira, Torre dos Clérigos, Serralves, Casa da Música, Port Wine Caves\n\n## Coverage\n- Full detail up to zoom 15 across the AMP\n- Northern Portugal at low zoom (Braga, Aveiro, Viana do Castelo, Bragança) for geographic context",
+  "tags": [
+    "europe",
+    "airports",
+    "hospitals",
+    "schools",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp",
+    "gallery/screenshot2.webp",
+    "gallery/screenshot3.webp"
+  ],
+  "is_test": false,
+  "source": "https://github.com/bquelhas/subwaybuilder-map-opo",
+  "update": {
+    "type": "github",
+    "repo": "bquelhas/subwaybuilder-map-opo"
+  },
+  "city_code": "OPO",
+  "country": "PT",
+  "population": 1189520,
+  "residents_total": 1189520,
+  "points_count": 48485,
+  "population_count": 59476,
+  "initial_view_state": {
+    "latitude": 41.1496,
+    "longitude": -8.611,
+    "zoom": 11,
+    "bearing": 0
+  },
+  "data_source": "OSM, INE",
+  "source_quality": "medium-quality",
+  "level_of_detail": "high-detail",
+  "location": "europe",
+  "special_demand": [
+    "airports",
+    "hospitals",
+    "schools",
+    "universities"
+  ],
+  "file_sizes": {
+    "OPO.pmtiles": 41.94,
+    "buildings_index.json": 68.32,
+    "config.json": 0,
+    "demand_data.json": 14.1,
+    "ocean_depth_index.json": 0,
+    "roads.geojson": 26.1,
+    "runways_taxiways.geojson": 0.31
+  },
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.027925148705653744,
+      "p25": 0.049401785495941895,
+      "p50": 0.07728434930537105,
+      "p75": 0.10928882526605543,
+      "p90": 0.14861532128544616,
+      "mean": 0.0867554657005194
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.021302204288449002,
+      "p25": 0.045898814817944875,
+      "p50": 0.08652693672935127,
+      "p75": 0.1392699373671923,
+      "p90": 0.19907785903188818,
+      "mean": 0.10276334813201889
+    },
+    "commuteDistanceKm": {
+      "p10": 897,
+      "p25": 2208,
+      "p50": 6270,
+      "p75": 15155,
+      "p90": 28632,
+      "mean": 10741.64094760912
+    },
+    "residentCellDensity": {
+      "p10": 40,
+      "p25": 80,
+      "p50": 200,
+      "p75": 540,
+      "p90": 1500,
+      "mean": 577.8696498054475
+    },
+    "workerCellDensity": {
+      "p10": 75,
+      "p25": 150,
+      "p50": 291,
+      "p75": 565,
+      "p90": 1049,
+      "mean": 551.7641339575081
+    },
+    "detail": {
+      "radiusKm": 0.08177516739521189,
+      "expectedPointSpacingKm": 0.24829001661406244,
+      "normalizedRadius": 0.3293534251210823,
+      "activityPerPoint": 27.85099846279782,
+      "playableAreaKm2": 2620,
+      "playableAreaPerPointKm2": 0.05403733113334021,
+      "playableCatchmentRadiusKm": 0.13115112169832682,
+      "localityScore": 1,
+      "deaggregationScore": 1,
+      "score": 1
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0,
+        "continuousScore": 0.852479657729525,
+        "detectedCenterCount": 1,
+        "effectiveCenterCount": 1,
+        "largestCenterShare": 1,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -8.562727533739759,
+            "latitude": 41.15683454735727,
+            "massShare": 1,
+            "assignedMass": 2722458,
+            "assignedPointCount": 46542,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1780173364,
+  "search_aliases": [
+    "Porto",
+    "Oporto",
+    "بورتو",
+    "Порто",
+    "Πόρτο",
+    "פורטו",
+    "ポルト",
+    "პორტუ",
+    "Portu",
+    "Порту",
+    "Πορτο",
+    "पोर्टो",
+    "পোর্তো"
+  ],
+  "sub_location": "south-europe"
+}

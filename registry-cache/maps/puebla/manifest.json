@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "id": "puebla",
+  "name": "Puebla",
+  "author": "rslurry",
+  "github_id": 112521174,
+  "description": "Combined result of INEGI's DENUE, CE, CPV, and ENOE data. Covers from Tecamachalco in the southeast to Nanacamilpa in the northwest. Includes demand for PBC airport; BUAP, UDLAP, UPAEP, and Ibero universities; and Capilla del Rosario, Catedral de Puebla, Zona Arqueológica de Cholula, Africam Safari, Estadio Cuauhtémoc, and Estadio Hermanos Serdán.",
+  "tags": [
+    "north-america",
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp",
+    "gallery/screenshot2.webp"
+  ],
+  "is_test": false,
+  "source": "https://github.com/rslurry/subwaybuilder-maps",
+  "update": {
+    "type": "custom",
+    "url": "https://raw.githubusercontent.com/rslurry/subwaybuilder-maps/refs/heads/main/PBC.json"
+  },
+  "city_code": "PBC",
+  "country": "MX",
+  "population": 2730088,
+  "residents_total": 2730088,
+  "points_count": 7822,
+  "population_count": 41729,
+  "initial_view_state": {
+    "latitude": 19.04371,
+    "longitude": -98.1981,
+    "zoom": 12,
+    "bearing": 0
+  },
+  "data_source": "INEGI's DENUE, CE, CPV, and ENOE",
+  "source_quality": "high-quality",
+  "level_of_detail": "high-detail",
+  "location": "north-america",
+  "special_demand": [
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "file_sizes": {
+    "PBC.pmtiles": 63.61,
+    "buildings_index.json": 229.86,
+    "config.json": 0,
+    "demand_data.json": 7.24,
+    "roads.geojson": 37.54,
+    "runways_taxiways.geojson": 0.07
+  },
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.22315686567630502,
+      "p25": 0.2491531311714685,
+      "p50": 0.2789365315768745,
+      "p75": 0.3144027914133347,
+      "p90": 0.3613355406458125,
+      "mean": 0.29158888101193586
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.22148451406523834,
+      "p25": 0.24968268242067818,
+      "p50": 0.28346461021399644,
+      "p75": 0.32734131418819584,
+      "p90": 0.39321486182206317,
+      "mean": 0.30919545170784757
+    },
+    "commuteDistanceKm": {
+      "p10": 1776,
+      "p25": 3779,
+      "p50": 8119,
+      "p75": 16626,
+      "p90": 28383,
+      "mean": 12248.276570250904
+    },
+    "residentCellDensity": {
+      "p10": 84,
+      "p25": 304,
+      "p50": 777,
+      "p75": 2040,
+      "p90": 4487,
+      "mean": 1632.4862275449102
+    },
+    "workerCellDensity": {
+      "p10": 95,
+      "p25": 221,
+      "p50": 636,
+      "p75": 1619,
+      "p90": 3552,
+      "mean": 1375.4911660777386
+    },
+    "detail": {
+      "radiusKm": 0.2811914564809586,
+      "expectedPointSpacingKm": 0.5103129726889225,
+      "normalizedRadius": 0.5510176529499433,
+      "activityPerPoint": 349.026847353618,
+      "playableAreaKm2": 3976,
+      "playableAreaPerPointKm2": 0.5083098951674764,
+      "playableCatchmentRadiusKm": 0.4022437878660825,
+      "localityScore": 0.5194789413040094,
+      "deaggregationScore": 1,
+      "score": 0.7207488753400934
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0.6635226817129669,
+        "continuousScore": 0.7639904014246578,
+        "detectedCenterCount": 2,
+        "effectiveCenterCount": 1.4964713374735052,
+        "largestCenterShare": 0.7900333249331157,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -98.1901010051381,
+            "latitude": 19.048881148618058,
+            "massShare": 0.7900333249331157,
+            "assignedMass": 4313721,
+            "assignedPointCount": 5573,
+            "prominenceRatio": 1
+          },
+          {
+            "longitude": -98.16921193704931,
+            "latitude": 19.336477643416384,
+            "massShare": 0.2099666750668843,
+            "assignedMass": 1146455,
+            "assignedPointCount": 2200,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1777593600,
+  "search_aliases": [
+    "Heroica Puebla de Zaragoza",
+    "Puebla de Zaragoza",
+    "Puebla City",
+    "Пуебла",
+    "פואבלה",
+    "プエブラ",
+    "بويبلا",
+    "Эроіка-Пуэбла-дэ-Сарагоса",
+    "Πουέμπλα",
+    "პუებლა",
+    "푸에블라",
+    "Puebla de Saragosa",
+    "Byen Puebla",
+    "Puebla de los Ángeles",
+    "Пуэбла-де-Сарагоса",
+    "普埃布拉",
+    "Heróica Puebla de Zaragoza",
+    "Пуэбла",
+    "पुएबला",
+    "পুয়েবলা"
+  ]
+}

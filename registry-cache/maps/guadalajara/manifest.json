@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "id": "guadalajara",
+  "name": "Guadalajara",
+  "author": "rslurry",
+  "github_id": 112521174,
+  "description": "Combined result of INEGI's DENUE, CE, CPV, and ENOE data. Covers the greater Guadalajara area. Includes demand for GDL airport; Universidad de Guadalajara (CUCEA, CUCEI, CUCS, CUCSH, CUAAD, and CUCBA campuses), Universidad del Valle de México (Zapopan and Guadalajara Sur campuses), Universidad Panamericana, Universidad Autónoma de Guadalajara (Ciudad Universitaria and International campuses), Universidad Jesuita de Guadalajara (ITESO), Universidad del Valle de Atemajac, Tec de Monterrey (ITESM Guadalajara), Universidad Tecnológica de Jalisco (UTJ), Universidad Lamar (Vallarta campus), Universidad Marista de Guadalajara, and Universidad América Latina (Vallarta campus); Estadio Akron, Expo Guadalajara, Jalisco Stadium, Guadalajara Cathedral, San Juan de Dios, Museo Cabañas, Teatro Degollado, Zoológico Guadalajara, Selva Mágica, Michin Aquarium, Barranca de Huentitán, Parque Mirador Independencia, Parque Natural Huentitán, Parque Metropolitano, Bosque Los Colomos, and Parque Solidaridad.",
+  "tags": [
+    "north-america",
+    "airports",
+    "entertainment",
+    "parks",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp",
+    "gallery/screenshot2.webp"
+  ],
+  "is_test": false,
+  "source": "https://github.com/rslurry/subwaybuilder-maps",
+  "update": {
+    "type": "custom",
+    "url": "https://raw.githubusercontent.com/rslurry/subwaybuilder-maps/refs/heads/main/GDL.json"
+  },
+  "city_code": "GDL",
+  "country": "MX",
+  "population": 2919025,
+  "residents_total": 2919025,
+  "points_count": 5575,
+  "population_count": 35754,
+  "initial_view_state": {
+    "latitude": 20.67698,
+    "longitude": -103.34697,
+    "zoom": 12,
+    "bearing": 0
+  },
+  "data_source": "INEGI's DENUE, CE, CPV, and ENOE",
+  "source_quality": "high-quality",
+  "level_of_detail": "high-detail",
+  "location": "north-america",
+  "special_demand": [
+    "airports",
+    "entertainment",
+    "parks",
+    "universities"
+  ],
+  "file_sizes": {
+    "GDL.pmtiles": 49.07,
+    "buildings_index.json": 199.05,
+    "config.json": 0,
+    "demand_data.json": 6.07,
+    "roads.geojson": 24.31,
+    "runways_taxiways.geojson": 0.42
+  },
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.22129142774151098,
+      "p25": 0.2440364041891729,
+      "p50": 0.27003324054924016,
+      "p75": 0.2981998482504969,
+      "p90": 0.32636093182568576,
+      "mean": 0.27403346122174915
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.21484534062594637,
+      "p25": 0.24238321724533046,
+      "p50": 0.2716858108675434,
+      "p75": 0.30926857957759774,
+      "p90": 0.3708812454460292,
+      "mean": 0.2920676886764913
+    },
+    "commuteDistanceKm": {
+      "p10": 2194,
+      "p25": 4296,
+      "p50": 8051,
+      "p75": 13706,
+      "p90": 19970,
+      "mean": 9982.650696425575
+    },
+    "residentCellDensity": {
+      "p10": 85,
+      "p25": 619,
+      "p50": 1997,
+      "p75": 4892,
+      "p90": 8822,
+      "mean": 3306.807037457435
+    },
+    "workerCellDensity": {
+      "p10": 139,
+      "p25": 388,
+      "p50": 1375,
+      "p75": 3650,
+      "p90": 6112,
+      "mean": 2618.321653189578
+    },
+    "detail": {
+      "radiusKm": 0.2708582653710437,
+      "expectedPointSpacingKm": 0.45239769797164625,
+      "normalizedRadius": 0.5987171609967378,
+      "activityPerPoint": 523.5919282511211,
+      "playableAreaKm2": 1756,
+      "playableAreaPerPointKm2": 0.3149775784753363,
+      "playableCatchmentRadiusKm": 0.3166393487154278,
+      "localityScore": 0.4315744104601616,
+      "deaggregationScore": 1,
+      "score": 0.6569432322964912
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0,
+        "continuousScore": 0.6926058545415807,
+        "detectedCenterCount": 1,
+        "effectiveCenterCount": 1,
+        "largestCenterShare": 1,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -103.35300565753168,
+            "latitude": 20.64351385189163,
+            "massShare": 1,
+            "assignedMass": 5838050,
+            "assignedPointCount": 5529,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1777593600,
+  "search_aliases": [
+    "Zapopan",
+    "Sapopanas",
+    "Сапопан",
+    "Запопан",
+    "サポパン",
+    "سابوبان، خاليسكو",
+    "საპოპანი",
+    "萨波潘",
+    "Сапапан",
+    "Σαπόπαν"
+  ]
+}

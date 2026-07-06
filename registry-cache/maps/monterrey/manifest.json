@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "id": "monterrey",
+  "name": "Monterrey",
+  "author": "rslurry",
+  "github_id": 112521174,
+  "description": "Combined result of INEGI's DENUE, CE, CPV, and ENOE data. Covers from Montemorelos in the southeast to Hidalgo in the northwest. Includes demand for MTY and NTR airports; ITESM, TecMilenio, U-ERRE, UMM, CEDIM, CEU, UDELN, UIN, UNICA, UDEM, UANL, ITNL, UPG, UTSC, UTGME, UTC, and UM universities; Cuarta Region Militar in Monterrey and Campo Militar 7-A in Apodaca military bases; and Macroplaza, Paseo Santa Lucia, Barrio Antiguo, Museo de Historia Mexicana, Museo MARCO, Cintermax, Fundidora Park, Cerro del Obispado, Grutas de Garcia, Arena Monterrey, and Mercado Juarez.",
+  "tags": [
+    "north-america",
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp",
+    "gallery/screenshot2.webp"
+  ],
+  "is_test": false,
+  "source": "https://github.com/rslurry/subwaybuilder-maps",
+  "update": {
+    "type": "custom",
+    "url": "https://raw.githubusercontent.com/rslurry/subwaybuilder-maps/refs/heads/main/MTY.json"
+  },
+  "city_code": "MTY",
+  "country": "MX",
+  "population": 3023651,
+  "residents_total": 3023651,
+  "points_count": 6209,
+  "population_count": 37297,
+  "initial_view_state": {
+    "latitude": 25.68604,
+    "longitude": -100.31688,
+    "zoom": 12,
+    "bearing": 0
+  },
+  "data_source": "INEGI's DENUE, CE, CPV, and ENOE",
+  "source_quality": "high-quality",
+  "level_of_detail": "high-detail",
+  "location": "north-america",
+  "special_demand": [
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "file_sizes": {
+    "MTY.pmtiles": 59.68,
+    "buildings_index.json": 215.3,
+    "config.json": 0,
+    "demand_data.json": 6.39,
+    "roads.geojson": 34.56,
+    "runways_taxiways.geojson": 0.31
+  },
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.22937831877272535,
+      "p25": 0.2541083837859367,
+      "p50": 0.28230715742142487,
+      "p75": 0.31012636681864475,
+      "p90": 0.34098212067766015,
+      "mean": 0.28579849903618065
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.2066351053980295,
+      "p25": 0.24752429394399358,
+      "p50": 0.28373814072291614,
+      "p75": 0.3332420873188052,
+      "p90": 0.4209472933728612,
+      "mean": 0.31374584317842125
+    },
+    "commuteDistanceKm": {
+      "p10": 2250,
+      "p25": 4648,
+      "p50": 9075,
+      "p75": 15648,
+      "p90": 23422,
+      "mean": 11219.904496340188
+    },
+    "residentCellDensity": {
+      "p10": 75,
+      "p25": 552,
+      "p50": 1926,
+      "p75": 4277,
+      "p90": 6663,
+      "mean": 2717.5458633093526
+    },
+    "workerCellDensity": {
+      "p10": 125,
+      "p25": 366,
+      "p50": 1154,
+      "p75": 2551,
+      "p90": 4660,
+      "mean": 2103.6183844011143
+    },
+    "detail": {
+      "radiusKm": 0.2830217446761409,
+      "expectedPointSpacingKm": 0.4908569752383266,
+      "normalizedRadius": 0.5765869875613459,
+      "activityPerPoint": 486.9787405379288,
+      "playableAreaKm2": 2272,
+      "playableAreaPerPointKm2": 0.3659204380737639,
+      "playableCatchmentRadiusKm": 0.3412859402254693,
+      "localityScore": 0.4714522451078001,
+      "deaggregationScore": 1,
+      "score": 0.6866238017341083
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0,
+        "continuousScore": 0.7801312412461012,
+        "detectedCenterCount": 1,
+        "effectiveCenterCount": 1,
+        "largestCenterShare": 1,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -100.28216587900057,
+            "latitude": 25.717688979061773,
+            "massShare": 1,
+            "assignedMass": 6047302,
+            "assignedPointCount": 6106,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1777593600,
+  "search_aliases": [
+    "Monterrei",
+    "モンテレイ",
+    "蒙特雷",
+    "Монтеррей",
+    "Monterrey City",
+    "มอนเตรเรย์",
+    "მონტერეი",
+    "مونتيري",
+    "Монтереј",
+    "Мантэрэй",
+    "Monterėjus",
+    "Monterrey i Nuevo León",
+    "몬테레이",
+    "Монтерей",
+    "מונטריי",
+    "Monterreja",
+    "Μοντερρέι",
+    "Մոնտերեյ",
+    "मोंटेरी",
+    "মন্টেরে"
+  ]
+}

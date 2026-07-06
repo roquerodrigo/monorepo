@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "id": "amsterdam",
+  "name": "Amsterdam",
+  "author": "ryandicicco",
+  "github_id": 215120742,
+  "description": "Real CBS (Statistics Netherlands) neighborhood data for population and jobs. Commute routes pre-calculated. Coverage includes Amsterdam, Amsterdam-Noord, Zuidoost/Bijlmer, Zuidas, Westpoort, Zaandam, Purmerend, Diemen, Amstelveen, Haarlemmermeer, and Schiphol (EHAM) with all piers.",
+  "tags": [
+    "europe",
+    "airports",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp"
+  ],
+  "source": "https://github.com/ryandicicco/Subway-Builder-Maps",
+  "update": {
+    "type": "custom",
+    "url": "https://ryandicicco.github.io/Subway-Builder-Maps/AMS.json"
+  },
+  "city_code": "AMS",
+  "country": "NL",
+  "population": 720820,
+  "level_of_detail": "medium-detail",
+  "source_quality": "medium-quality",
+  "data_source": "CBS/OSM",
+  "location": "europe",
+  "special_demand": [
+    "airports",
+    "universities"
+  ],
+  "residents_total": 720820,
+  "points_count": 530,
+  "population_count": 6522,
+  "initial_view_state": {
+    "latitude": 52.374,
+    "longitude": 4.8897,
+    "zoom": 11,
+    "bearing": 0
+  },
+  "file_sizes": {
+    "AMS.pmtiles": 96.47,
+    "buildings_index.json": 158.74,
+    "config.json": 0,
+    "demand_data.json": 0.86,
+    "roads.geojson": 21.38,
+    "runways_taxiways.geojson": 1.19
+  },
+  "is_test": false,
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.04095227611577783,
+      "p25": 0.1440913932950119,
+      "p50": 0.39759718400386185,
+      "p75": 0.7843417191120162,
+      "p90": 1.327089434731919,
+      "mean": 0.6156719699293699
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.057643992594396475,
+      "p25": 0.18317217964599514,
+      "p50": 0.4468650915950254,
+      "p75": 0.9231302151461663,
+      "p90": 1.5462025478776096,
+      "mean": 0.7121907729549103
+    },
+    "commuteDistanceKm": {
+      "p10": 4672,
+      "p25": 8479,
+      "p50": 14886,
+      "p75": 21620,
+      "p90": 27783,
+      "mean": 15779.720177859552
+    },
+    "residentCellDensity": {
+      "p10": 525,
+      "p25": 1563,
+      "p50": 3214,
+      "p75": 5693,
+      "p90": 7450,
+      "mean": 3993.5949820788533
+    },
+    "workerCellDensity": {
+      "p10": 248,
+      "p25": 717,
+      "p50": 1670,
+      "p75": 3560,
+      "p90": 5934,
+      "mean": 2517.26618705036
+    },
+    "detail": {
+      "radiusKm": 0.4215119239687175,
+      "expectedPointSpacingKm": 0.7281405628347338,
+      "normalizedRadius": 0.5788881233696469,
+      "activityPerPoint": 1690.6670368204504,
+      "playableAreaKm2": 378,
+      "playableAreaPerPointKm2": 0.7132075471698113,
+      "playableCatchmentRadiusKm": 0.47646722150116805,
+      "localityScore": 0.46723500900123477,
+      "deaggregationScore": 1,
+      "score": 0.6835459084810871
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0,
+        "continuousScore": 0.30510754321699335,
+        "detectedCenterCount": 1,
+        "effectiveCenterCount": 1,
+        "largestCenterShare": 1,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": 4.887477568230909,
+            "latitude": 52.358185573122086,
+            "massShare": 1,
+            "assignedMass": 1839305,
+            "assignedPointCount": 522,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1773619200,
+  "search_aliases": [
+    "Ámsterdam",
+    "Amsŭt'erŭdam",
+    "أمستردام",
+    "Амстэрдам",
+    "Амстердам",
+    "Amesterdã",
+    "Amseutereudam",
+    "Άμστερνταμ",
+    "Amsterodam",
+    "אמסטרדם",
+    "Amszterdam",
+    "Amusuterudamu",
+    "アムステルダム",
+    "암스테르담",
+    "Amsterdamas",
+    "Amsterdama",
+    "Amesterdão",
+    "Amstyerdam",
+    "อัมสเตอร์ดัม",
+    "阿姆斯特丹",
+    "ამსტერდამი",
+    "Amsterdami",
+    "আমস্টারডাম",
+    "Amsterdã",
+    "Ամստերդամ",
+    "ऐम्स्टर्डैम"
+  ],
+  "sub_location": "west-europe"
+}

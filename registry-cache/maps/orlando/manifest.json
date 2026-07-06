@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "id": "orlando",
+  "name": "Orlando",
+  "author": "rslurry",
+  "github_id": 112521174,
+  "description": "Uses 2023 LODES data. Coverage spans from Celebration in the south, Four Corners/Mount Dora in the west, UCF in the east, and Sanford in the north.\nIncludes demand for MCO and SFB airports; UCF, Full Sail, Rollins, Valencia, and Seminole State universities; Disney Magic Kingdom, Animal Kingdom, EPCOT, Hollywood Studios, Typhoon Lagoon, Blizzard Beach, Disney Springs, Universal Studios, Islands of Adventure, Volcano Bay, Epic Universe, the Kia Center, and Inter & Co Stadium.",
+  "tags": [
+    "north-america",
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp"
+  ],
+  "source": "https://github.com/rslurry/subwaybuilder-maps",
+  "update": {
+    "type": "custom",
+    "url": "https://raw.githubusercontent.com/rslurry/subwaybuilder-maps/refs/heads/main/MCO.json"
+  },
+  "city_code": "MCO",
+  "country": "US",
+  "population": 1178384,
+  "level_of_detail": "high-detail",
+  "source_quality": "high-quality",
+  "data_source": "LODES",
+  "location": "north-america",
+  "special_demand": [
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "residents_total": 1178384,
+  "points_count": 2364,
+  "population_count": 100423,
+  "initial_view_state": {
+    "latitude": 28.54413,
+    "longitude": -81.37315,
+    "zoom": 12,
+    "bearing": 0
+  },
+  "file_sizes": {
+    "MCO.pmtiles": 52.54,
+    "buildings_index.json": 129.48,
+    "city_config.json": 0,
+    "config.json": 0,
+    "demand_data.json": 16.08,
+    "roads.geojson": 25.34,
+    "runways_taxiways.geojson": 1.83
+  },
+  "is_test": false,
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.40358623980662334,
+      "p25": 0.5103934502501407,
+      "p50": 0.6545005362201766,
+      "p75": 0.8667242709938797,
+      "p90": 1.0647836292910984,
+      "mean": 0.7045958613889629
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.15498452105242808,
+      "p25": 0.26845278518467136,
+      "p50": 0.3779250605526033,
+      "p75": 0.564332459293112,
+      "p90": 0.7417845415521265,
+      "mean": 0.43526003434775606
+    },
+    "commuteDistanceKm": {
+      "p10": 7777,
+      "p25": 14706,
+      "p50": 24503,
+      "p75": 36206,
+      "p90": 47811,
+      "mean": 26511.697599155574
+    },
+    "residentCellDensity": {
+      "p10": 37,
+      "p25": 168,
+      "p50": 513,
+      "p75": 1054,
+      "p90": 1688,
+      "mean": 730.9863523573201
+    },
+    "workerCellDensity": {
+      "p10": 19,
+      "p25": 56,
+      "p50": 152,
+      "p75": 420,
+      "p90": 1000,
+      "mean": 745.1884517766498
+    },
+    "detail": {
+      "radiusKm": 0.49734510632228157,
+      "expectedPointSpacingKm": 0.8414997489073704,
+      "normalizedRadius": 0.5910222872532642,
+      "activityPerPoint": 498.4703891708968,
+      "playableAreaKm2": 2851,
+      "playableAreaPerPointKm2": 1.2060067681895092,
+      "playableCatchmentRadiusKm": 0.6195836320621163,
+      "localityScore": 0.44527065113526326,
+      "deaggregationScore": 0.9371252448186791,
+      "score": 0.6459677762518082
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0.9952898081628755,
+        "continuousScore": 0.6052817682960848,
+        "detectedCenterCount": 3,
+        "effectiveCenterCount": 2.972002595271677,
+        "largestCenterShare": 0.37299853019049817,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -81.52070304495321,
+            "latitude": 28.431705202563172,
+            "massShare": 0.37299853019049817,
+            "assignedMass": 879071,
+            "assignedPointCount": 668,
+            "prominenceRatio": 1
+          },
+          {
+            "longitude": -81.32280244416786,
+            "latitude": 28.650752933013603,
+            "massShare": 0.3332508757756385,
+            "assignedMass": 785395,
+            "assignedPointCount": 967,
+            "prominenceRatio": 1
+          },
+          {
+            "longitude": -81.35716123247826,
+            "latitude": 28.476361874773325,
+            "massShare": 0.29375059403386333,
+            "assignedMass": 692302,
+            "assignedPointCount": 693,
+            "prominenceRatio": 1
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1773878400,
+  "search_aliases": [
+    "אורלנדו",
+    "オーランド",
+    "Орландо",
+    "ორლანდო",
+    "ออร์แลนโด",
+    "Orlandas",
+    "올랜도",
+    "أورلاندو",
+    "Ορλάντο",
+    "奥兰多",
+    "Օռլանդո"
+  ]
+}

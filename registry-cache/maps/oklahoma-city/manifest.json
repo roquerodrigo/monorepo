@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "id": "oklahoma-city",
+  "name": "Oklahoma City",
+  "author": "ryandicicco",
+  "github_id": 215120742,
+  "description": "Custom map of the Oklahoma City metro area featuring 378,004 buildings merged from five authoritative sources (Overture, OKC City Government 2020 aerial survey, FEMA/ORNL satellite imagery, Microsoft, and OpenStreetMap). High-quality LODES-based demand data with pre-calculated commute routes, airports (Will Rogers World / OKC), 7 universities, Tinker AFB military base, and entertainment venues (OKC Zoo, State Fair Park, Bricktown). Population ~1.1M covering the core metro plus surrounding areas.",
+  "tags": [
+    "north-america",
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "gallery": [
+    "gallery/screenshot1.webp",
+    "gallery/screenshot2.webp",
+    "gallery/screenshot3.webp"
+  ],
+  "is_test": false,
+  "source": "https://github.com/ryandicicco/Subway-Builder-Maps",
+  "update": {
+    "type": "custom",
+    "url": "https://raw.githubusercontent.com/ryandicicco/Subway-Builder-Maps/main/releases/OKC.json"
+  },
+  "city_code": "OKC",
+  "country": "US",
+  "population": 235101,
+  "residents_total": 235101,
+  "points_count": 640,
+  "population_count": 20963,
+  "initial_view_state": {
+    "latitude": 35.47,
+    "longitude": -97.5,
+    "zoom": 11,
+    "bearing": 0
+  },
+  "data_source": "LODES",
+  "source_quality": "high-quality",
+  "level_of_detail": "high-detail",
+  "location": "north-america",
+  "special_demand": [
+    "airports",
+    "entertainment",
+    "universities"
+  ],
+  "file_sizes": {
+    "OKC.pmtiles": 11.16,
+    "buildings_index.json": 111.31,
+    "config.json": 0,
+    "demand_data.json": 3.34,
+    "roads.geojson": 8.71,
+    "runways_taxiways.geojson": 0.91
+  },
+  "grid_statistics": {
+    "residentWeightedNearestNeighborKm": {
+      "p10": 0.47300462407833177,
+      "p25": 0.5857035059444604,
+      "p50": 0.7425111778368078,
+      "p75": 0.8956429949759861,
+      "p90": 1.134122768267562,
+      "mean": 0.7921377119506512
+    },
+    "workerWeightedNearestNeighborKm": {
+      "p10": 0.21427480608773705,
+      "p25": 0.37499042550243616,
+      "p50": 0.4516625015764143,
+      "p75": 0.7709967880460734,
+      "p90": 1.0594144768610154,
+      "mean": 0.7693329062990467
+    },
+    "commuteDistanceKm": {
+      "p10": 4229,
+      "p25": 8527,
+      "p50": 14663,
+      "p75": 21447,
+      "p90": 27191,
+      "mean": 15342.922053141248
+    },
+    "residentCellDensity": {
+      "p10": 19,
+      "p25": 67,
+      "p50": 347,
+      "p75": 706,
+      "p90": 1195,
+      "mean": 483.4152892561983
+    },
+    "workerCellDensity": {
+      "p10": 27,
+      "p25": 76,
+      "p50": 173,
+      "p75": 340,
+      "p90": 750,
+      "mean": 479.8421052631579
+    },
+    "detail": {
+      "radiusKm": 0.5791066016116743,
+      "expectedPointSpacingKm": 0.879452954966893,
+      "normalizedRadius": 0.658485025652651,
+      "activityPerPoint": 367.3453125,
+      "playableAreaKm2": 948,
+      "playableAreaPerPointKm2": 1.48125,
+      "playableCatchmentRadiusKm": 0.6866560411951095,
+      "localityScore": 0.33082655722777576,
+      "deaggregationScore": 0.7359101863422924,
+      "score": 0.4934152747701185
+    },
+    "polycentrism": {
+      "activity": {
+        "score": 0.7536171751389289,
+        "continuousScore": 0.7344875976131077,
+        "detectedCenterCount": 2,
+        "effectiveCenterCount": 1.6046434210315208,
+        "largestCenterShare": 0.7481848226932255,
+        "bandwidthKm": 1.3,
+        "reliabilityScore": 1,
+        "supportLevel": "high",
+        "usedFallback": false,
+        "topCenters": [
+          {
+            "longitude": -97.49728171804297,
+            "latitude": 35.434176436240044,
+            "massShare": 0.7481848226932255,
+            "assignedMass": 351798,
+            "assignedPointCount": 448,
+            "prominenceRatio": 1
+          },
+          {
+            "longitude": -97.5869575557585,
+            "latitude": 35.52977243335079,
+            "massShare": 0.25181517730677455,
+            "assignedMass": 118404,
+            "assignedPointCount": 187,
+            "prominenceRatio": 0.9999999981377575
+          }
+        ]
+      }
+    }
+  },
+  "last_updated": 1775779200,
+  "search_aliases": [
+    "Оклахома Сити",
+    "أوكلاهوما سيتي",
+    "אוקלהומה סיטי",
+    "Kota Oklahoma",
+    "オクラホマシティ",
+    "Oklahoma Sitis",
+    "โอคลาโฮมาซิตี",
+    "Оклахома-Сіті",
+    "Oklahomasitija",
+    "Оклахома",
+    "ოკლაჰომა-სიტი",
+    "오클라호마시티",
+    "Οκλαχόμα Σίτι",
+    "Օկլահոմա Սիթի",
+    "Аклахома-Сіці",
+    "Оклахома-Сити",
+    "奧克拉荷馬市",
+    "Oklahoma Siti",
+    "ওকলাহোমা সিটি",
+    "Okla city",
+    "Oklahoma Shehri",
+    "ओक्लाहोमा सिटी"
+  ]
+}
